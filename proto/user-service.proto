@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option go_package = "github.com/dorm-parcel-manager/dpm/common/pb";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+service UserService {
+  rpc Hello (HelloRequest) returns (HelloResponse) {}
+  rpc GetUserForAuth (GetUserForAuthRequest) returns (User) {}
+  rpc GetUserInfo (GetUserInfoRequest) returns (UserInfo) {}
+  rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {}
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+  rpc UpdateUser (UpdateUserRequest) returns (Empty) {}
+  rpc DeleteUser (DeleteUserRequest) returns (Empty) {}
+}
+
+message GetUserForAuthRequest {
+  string oauth_id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+}
+
+message User {
+  int32 id = 1;
+  string oauth_id = 2;
+  string email = 3;
+  string first_name = 4;
+  string last_name = 5;
+  UserType type = 8;
+
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message GetUserInfoRequest {
+  uint32 id = 1;
+}
+
+message UserInfo {
+  uint32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  UserType type = 4;
+}
+
+message GetUsersRequest {
+  Context context = 1;
+}
+
+message GetUsersResponse {
+  repeated User users = 1;
+}
+
+message GetUserRequest {
+  Context context = 1;
+  uint32 id = 2;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  Context context = 1;
+  uint32 id = 2;
+  UpdateUserData data = 3;
+}
+
+message UpdateUserData {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  UserType type = 4;
+}
+
+message DeleteUserRequest {
+  Context context = 1;
+  uint32 id = 2;
+}
