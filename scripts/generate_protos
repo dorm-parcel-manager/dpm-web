@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
+cd ..
+
+OUT_DIR="./app/proto"
+
+rm -rf ${OUT_DIR}
+mkdir -p ${OUT_DIR}
+
+npx protoc --ts_out ${OUT_DIR} --proto_path proto proto/*.proto
+
+# Remix doesn't like *.client.ts files on the server, so we rename them
+cd ${OUT_DIR}
+for FILE_NAME in *.client.ts; do 
+  NEW_NAME=$(echo $FILE_NAME | sed 's/^\(.*\).client.ts$/\1-client.ts/')
+  echo "$FILE_NAME -> $NEW_NAME"
+  mv $FILE_NAME $NEW_NAME
+done;
