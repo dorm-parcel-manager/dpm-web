@@ -1,1 +1,2 @@
-export const USER_SERVICE = process.env.USER_SERVICE as string;
+export const CLIENT_USERSERVICEURL = process.env
+  .CLIENT_USERSERVICEURL as string;
