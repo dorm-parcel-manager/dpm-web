@@ -1,3 +1,4 @@
+import { CssVarsProvider } from "@mui/joy";
 import type { MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -22,7 +23,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <CssVarsProvider>
+          <Outlet />
+        </CssVarsProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
