@@ -23,7 +23,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <CssVarsProvider>
+        <CssVarsProvider defaultMode="system">
           <Outlet />
         </CssVarsProvider>
         <ScrollRestoration />

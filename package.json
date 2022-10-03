@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.10.4",
     "@grpc/grpc-js": "^1.7.1",
     "@mui/joy": "^5.0.0-alpha.47",
+    "@mui/material": "^5.10.7",
     "@protobuf-ts/grpc-transport": "^2.8.1",
     "@remix-run/node": "^1.7.1",
     "@remix-run/react": "^1.7.1",

@@ -6,6 +6,7 @@ import { userServiceClient } from "~/client";
 import type { HelloResponse } from "~/proto/common";
 import { useState } from "react";
 import { FadeModal } from "~/shared/components/FadeModal";
+import { ModeToggle } from "~/shared/components/ModeToggle";
 
 type LoaderData = HelloResponse;
 
@@ -26,6 +27,8 @@ export default function Index() {
       </Typography>
 
       <Button onClick={() => setOpen(true)}>Open Modal</Button>
+      <br />
+      <ModeToggle />
       <FadeModal open={open} onClose={() => setOpen(false)}>
         <div>
           <Typography
