@@ -1,4 +1,4 @@
-import { CssVarsProvider } from "@mui/joy";
+import { CssVarsProvider, getInitColorSchemeScript } from "@mui/joy";
 import type { MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -23,6 +23,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        {getInitColorSchemeScript({ defaultMode: "system" })}
         <CssVarsProvider defaultMode="system">
           <Outlet />
         </CssVarsProvider>
