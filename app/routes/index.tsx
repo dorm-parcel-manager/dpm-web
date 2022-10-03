@@ -5,8 +5,8 @@ import { useLoaderData } from "@remix-run/react";
 import { userServiceClient } from "~/client";
 import type { HelloResponse } from "~/proto/common";
 import { useState } from "react";
-import { FadeModal } from "~/shared/components/FadeModal";
-import { ModeToggle } from "~/shared/components/ModeToggle";
+import { FadeModal } from "~/components/FadeModal";
+import { ModeToggle } from "~/components/ModeToggle";
 
 type LoaderData = HelloResponse;
 

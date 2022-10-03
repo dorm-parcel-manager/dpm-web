@@ -1,6 +1,6 @@
 import { Button, useColorScheme } from "@mui/joy";
 import { useCallback, useEffect, useState } from "react";
-import { usePrefersColorSchemeDark } from "./hooks/usePrefersColorSchemeDark";
+import { usePrefersColorSchemeDark } from "../hooks/usePrefersColorSchemeDark";
 
 const query = "(prefers-color-scheme: dark)";
 
