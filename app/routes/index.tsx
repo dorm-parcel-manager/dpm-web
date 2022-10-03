@@ -1,7 +1,8 @@
 import { Button, Typography } from "@mui/joy";
+import { Stack } from "@mui/system";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { userServiceClient } from "~/client";
 import type { HelloResponse } from "~/proto/common";
 import { useState } from "react";
@@ -19,15 +20,14 @@ export default function Index() {
   const data = useLoaderData<LoaderData>();
 
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   return (
-    <div>
+    <Stack alignItems="start">
       <Typography level="h4" component="h1">
         {data.message}
       </Typography>
-
+      <Button onClick={() => navigate("/login")}>Login</Button>
       <Button onClick={() => setOpen(true)}>Open Modal</Button>
-      <br />
       <ModeToggle />
       <FadeModal open={open} onClose={() => setOpen(false)}>
         <div>
@@ -44,6 +44,6 @@ export default function Index() {
           </Typography>
         </div>
       </FadeModal>
-    </div>
+    </Stack>
   );
 }
