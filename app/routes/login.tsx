@@ -5,6 +5,15 @@ import { useOnLoad } from "~/hooks/useOnLoad";
 import { useSubmit } from "@remix-run/react";
 import { renderButton, setGoogleSignInCallback } from "~/auth/googleSignIn";
 import logo from "~/assets/images/logo.svg";
+import type { LoaderFunction } from "@remix-run/node";
+import { authenticator } from "~/services/auth.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/dashboard",
+  });
+  return null;
+};
 
 const Container = styled(JoyContainer)(({ theme }) => ({
   paddingTop: 64,
