@@ -1,0 +1,7 @@
+body {
+  background: var(--joy-palette-background-body);
+}
+
+iframe {
+  color-scheme: light;
+}

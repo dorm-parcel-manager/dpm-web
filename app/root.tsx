@@ -18,6 +18,8 @@ import modernCssReset from "modern-css-reset/dist/reset.min.css";
 import { useInitGoogleSignIn } from "~/auth/googleSignIn";
 import { GOOGLE_CLIENT_ID } from "./env";
 
+import globalStyles from "~/styles/shared.css";
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Dorm Parcel Manager",
@@ -64,6 +66,10 @@ export const links: LinksFunction = () => {
     {
       rel: "stylesheet",
       href: modernCssReset,
+    },
+    {
+      rel: "stylesheet",
+      href: globalStyles,
     },
   ];
 };
