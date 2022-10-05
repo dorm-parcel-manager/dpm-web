@@ -38,6 +38,10 @@ export interface GetUserForAuthRequest {
      * @generated from protobuf field: string last_name = 4;
      */
     lastName: string;
+    /**
+     * @generated from protobuf field: string picture = 5;
+     */
+    picture: string;
 }
 /**
  * @generated from protobuf message pb.User
@@ -63,6 +67,10 @@ export interface User {
      * @generated from protobuf field: string last_name = 5;
      */
     lastName: string;
+    /**
+     * @generated from protobuf field: string picture = 9;
+     */
+    picture: string;
     /**
      * @generated from protobuf field: pb.UserType type = 8;
      */
@@ -101,6 +109,10 @@ export interface UserInfo {
      * @generated from protobuf field: string last_name = 3;
      */
     lastName: string;
+    /**
+     * @generated from protobuf field: string picture = 5;
+     */
+    picture: string;
     /**
      * @generated from protobuf field: pb.UserType type = 4;
      */
@@ -180,6 +192,10 @@ export interface UpdateUserData {
      */
     lastName: string;
     /**
+     * @generated from protobuf field: string picture = 5;
+     */
+    picture: string;
+    /**
      * @generated from protobuf field: pb.UserType type = 4;
      */
     type: UserType;
@@ -204,11 +220,12 @@ class GetUserForAuthRequest$Type extends MessageType<GetUserForAuthRequest> {
             { no: 1, name: "oauth_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "picture", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<GetUserForAuthRequest>): GetUserForAuthRequest {
-        const message = { oauthId: "", email: "", firstName: "", lastName: "" };
+        const message = { oauthId: "", email: "", firstName: "", lastName: "", picture: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<GetUserForAuthRequest>(this, message, value);
@@ -230,6 +247,9 @@ class GetUserForAuthRequest$Type extends MessageType<GetUserForAuthRequest> {
                     break;
                 case /* string last_name */ 4:
                     message.lastName = reader.string();
+                    break;
+                case /* string picture */ 5:
+                    message.picture = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -255,6 +275,9 @@ class GetUserForAuthRequest$Type extends MessageType<GetUserForAuthRequest> {
         /* string last_name = 4; */
         if (message.lastName !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.lastName);
+        /* string picture = 5; */
+        if (message.picture !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.picture);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -274,13 +297,14 @@ class User$Type extends MessageType<User> {
             { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "picture", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "type", kind: "enum", T: () => ["pb.UserType", UserType] },
             { no: 6, name: "created_at", kind: "message", T: () => Timestamp },
             { no: 7, name: "updated_at", kind: "message", T: () => Timestamp }
         ]);
     }
     create(value?: PartialMessage<User>): User {
-        const message = { id: 0, oauthId: "", email: "", firstName: "", lastName: "", type: 0 };
+        const message = { id: 0, oauthId: "", email: "", firstName: "", lastName: "", picture: "", type: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<User>(this, message, value);
@@ -305,6 +329,9 @@ class User$Type extends MessageType<User> {
                     break;
                 case /* string last_name */ 5:
                     message.lastName = reader.string();
+                    break;
+                case /* string picture */ 9:
+                    message.picture = reader.string();
                     break;
                 case /* pb.UserType type */ 8:
                     message.type = reader.int32();
@@ -342,6 +369,9 @@ class User$Type extends MessageType<User> {
         /* string last_name = 5; */
         if (message.lastName !== "")
             writer.tag(5, WireType.LengthDelimited).string(message.lastName);
+        /* string picture = 9; */
+        if (message.picture !== "")
+            writer.tag(9, WireType.LengthDelimited).string(message.picture);
         /* pb.UserType type = 8; */
         if (message.type !== 0)
             writer.tag(8, WireType.Varint).int32(message.type);
@@ -415,11 +445,12 @@ class UserInfo$Type extends MessageType<UserInfo> {
             { no: 1, name: "id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 2, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "picture", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "type", kind: "enum", T: () => ["pb.UserType", UserType] }
         ]);
     }
     create(value?: PartialMessage<UserInfo>): UserInfo {
-        const message = { id: 0, firstName: "", lastName: "", type: 0 };
+        const message = { id: 0, firstName: "", lastName: "", picture: "", type: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UserInfo>(this, message, value);
@@ -438,6 +469,9 @@ class UserInfo$Type extends MessageType<UserInfo> {
                     break;
                 case /* string last_name */ 3:
                     message.lastName = reader.string();
+                    break;
+                case /* string picture */ 5:
+                    message.picture = reader.string();
                     break;
                 case /* pb.UserType type */ 4:
                     message.type = reader.int32();
@@ -463,6 +497,9 @@ class UserInfo$Type extends MessageType<UserInfo> {
         /* string last_name = 3; */
         if (message.lastName !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.lastName);
+        /* string picture = 5; */
+        if (message.picture !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.picture);
         /* pb.UserType type = 4; */
         if (message.type !== 0)
             writer.tag(4, WireType.Varint).int32(message.type);
@@ -739,11 +776,12 @@ class UpdateUserData$Type extends MessageType<UpdateUserData> {
             { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "picture", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "type", kind: "enum", T: () => ["pb.UserType", UserType] }
         ]);
     }
     create(value?: PartialMessage<UpdateUserData>): UpdateUserData {
-        const message = { email: "", firstName: "", lastName: "", type: 0 };
+        const message = { email: "", firstName: "", lastName: "", picture: "", type: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UpdateUserData>(this, message, value);
@@ -762,6 +800,9 @@ class UpdateUserData$Type extends MessageType<UpdateUserData> {
                     break;
                 case /* string last_name */ 3:
                     message.lastName = reader.string();
+                    break;
+                case /* string picture */ 5:
+                    message.picture = reader.string();
                     break;
                 case /* pb.UserType type */ 4:
                     message.type = reader.int32();
@@ -787,6 +828,9 @@ class UpdateUserData$Type extends MessageType<UpdateUserData> {
         /* string last_name = 3; */
         if (message.lastName !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.lastName);
+        /* string picture = 5; */
+        if (message.picture !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.picture);
         /* pb.UserType type = 4; */
         if (message.type !== 0)
             writer.tag(4, WireType.Varint).int32(message.type);

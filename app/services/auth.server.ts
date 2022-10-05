@@ -22,10 +22,11 @@ let googleStrategy = new GoogleStrategy(
       email: profile.emails[0].value,
       firstName: profile.name.givenName,
       lastName: profile.name.familyName,
+      picture: profile.photos[0]?.value,
       oauthId: profile.id,
     });
-    const { id, firstName, lastName, type } = result.response;
-    return { id, firstName, lastName, type };
+    const { id, firstName, lastName, picture, type } = result.response;
+    return { id, firstName, lastName, picture, type };
   }
 );
 
@@ -44,10 +45,11 @@ authenticator.use(
       oauthId: payload.sub,
       firstName: payload.given_name!,
       lastName: payload.family_name!,
+      picture: payload.picture ?? "",
       email: payload.email!,
     });
-    const { id, firstName, lastName, type } = response;
-    return { id, firstName, lastName, type };
+    const { id, firstName, lastName, picture, type } = response;
+    return { id, firstName, lastName, picture, type };
   }),
   "google-token"
 );
