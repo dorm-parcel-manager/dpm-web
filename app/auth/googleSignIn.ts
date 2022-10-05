@@ -36,5 +36,7 @@ export function renderButton(element: HTMLElement) {
   google.accounts.id.renderButton(element, {
     theme: "outline",
     size: "large",
+    text: "continue_with",
+    shape: "pill",
   });
 }
