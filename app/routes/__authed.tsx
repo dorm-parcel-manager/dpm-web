@@ -1,4 +1,6 @@
-import { Box, Container, Stack, styled, Theme } from "@mui/joy";
+import type { Theme } from "@mui/joy";
+import { Divider } from "@mui/joy";
+import { Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
@@ -9,6 +11,7 @@ import logo from "~/assets/images/logo.svg";
 import { UserMenu } from "~/components/UserMenu";
 import { MobileMenu } from "~/components/MobileMenu";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Sidebar } from "~/components/Sidebar";
 
 type LoaderData = UserInfo;
 
@@ -53,9 +56,32 @@ export default function AuthedLayout() {
           {isDesktop ? <UserMenu user={user} /> : <MobileMenu user={user} />}
         </Toolbar>
       </AppBar>
-      <Container sx={{ paddingTop: 10 }}>
-        <Outlet />
-      </Container>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: { xs: "none", sm: "flex" },
+            minWidth: { xs: 0, md: 200 },
+            marginTop: 9,
+            paddingLeft: 2,
+          }}
+        >
+          <Sidebar user={user} fixed />
+        </Box>
+        <Divider
+          orientation="vertical"
+          sx={{
+            display: { xs: "none", sm: "flex" },
+            marginTop: 8,
+            marginLeft: 2,
+            marginRight: 2,
+          }}
+        />
+        <Container sx={{ paddingTop: 8 }}>
+          <Box sx={{ flexGrow: 1, marginTop: 2 }}>
+            <Outlet />
+          </Box>
+        </Container>
+      </Box>
     </div>
   );
 }

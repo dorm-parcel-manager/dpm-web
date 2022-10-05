@@ -12,6 +12,7 @@ import { Link } from "@remix-run/react";
 import { MdClose, MdLogout, MdMenu } from "react-icons/md";
 import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
+import { Sidebar } from "./Sidebar";
 
 interface Props {
   user: UserInfo;
@@ -31,6 +32,9 @@ export function MobileMenu({ user }: Props) {
           sx={{ display: "flex", flexDirection: "column", paddingTop: 10 }}
         >
           <Typography level="h4">Dorm Parcel Manager</Typography>
+          <Box sx={{ marginTop: 1 }}>
+            <Sidebar user={user} />
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Divider sx={{ margin: 0, marginTop: 2, marginBottom: 2 }} />
           <Box
