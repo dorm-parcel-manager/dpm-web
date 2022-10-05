@@ -1,14 +1,10 @@
-import {
-  Button,
-  Container as JoyContainer,
-  styled,
-  Typography,
-} from "@mui/joy";
+import { Box, Container as JoyContainer, styled, Typography } from "@mui/joy";
 import { Stack } from "@mui/system";
-
+import { useCallback, useEffect, useRef } from "react";
+import { useOnLoad } from "~/hooks/useOnLoad";
+import { useSubmit } from "@remix-run/react";
+import { renderButton, setGoogleSignInCallback } from "~/auth/googleSignIn";
 import logo from "~/assets/images/logo.svg";
-import googleLogo from "~/assets/images/google-logo.svg";
-import { Form } from "@remix-run/react";
 
 const Container = styled(JoyContainer)(({ theme }) => ({
   paddingTop: 64,
@@ -28,13 +24,27 @@ const LogoImg = styled("img")({
   marginBottom: 32,
 });
 
-const GoogleLogoImg = styled("img")({
-  marginRight: "0.75rem",
-  width: 18,
-  height: 18,
-});
-
 export default function Login() {
+  const submit = useSubmit();
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  useOnLoad(
+    useCallback(() => {
+      renderButton(buttonRef.current!);
+    }, [])
+  );
+
+  useEffect(() => {
+    setGoogleSignInCallback((response) => {
+      const data = new FormData();
+      data.append("credential", response.credential);
+      submit(data, {
+        method: "post",
+        action: "/auth/google/token",
+      });
+    });
+  }, [submit]);
+
   return (
     <Container>
       <Stack>
@@ -51,16 +61,9 @@ export default function Login() {
       >
         A parcel management system for dormitory students
       </Typography>
-      <Form action="/auth/google" method="post">
-        <Button
-          type="submit"
-          variant="outlined"
-          color="neutral"
-          sx={{ marginTop: 4 }}
-        >
-          <GoogleLogoImg src={googleLogo} alt="" /> Sign In with Google
-        </Button>
-      </Form>
+      <Box sx={{ display: "inline-block", paddingTop: 4 }}>
+        <div ref={buttonRef} />
+      </Box>
     </Container>
   );
 }

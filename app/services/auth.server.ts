@@ -1,9 +1,11 @@
 import { Authenticator } from "remix-auth";
+import { FormStrategy } from "remix-auth-form";
 import type { UserInfo } from "~/proto/user-service";
 import { sessionStorage } from "~/services/session.server";
 import { userServiceClient } from "~/client";
 import { GoogleStrategy } from "~/auth/google";
 import { BASE_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "~/env";
+import { OAuth2Client } from "google-auth-library";
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
@@ -28,3 +30,24 @@ let googleStrategy = new GoogleStrategy(
 );
 
 authenticator.use(googleStrategy);
+
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+authenticator.use(
+  new FormStrategy(async ({ form }) => {
+    const credential = form.get("credential") as string;
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload()!;
+    const { response } = await userServiceClient.getUserForAuth({
+      oauthId: payload.sub,
+      firstName: payload.given_name!,
+      lastName: payload.family_name!,
+      email: payload.email!,
+    });
+    const { id, firstName, lastName, type } = response;
+    return { id, firstName, lastName, type };
+  }),
+  "google-token"
+);
