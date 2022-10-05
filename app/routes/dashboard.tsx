@@ -1,7 +1,7 @@
-import { Typography } from "@mui/joy";
+import { Button, Typography } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { UserInfo } from "~/proto/user-service";
 import { authenticator } from "~/services/auth.server";
 
@@ -22,9 +22,9 @@ export default function Index() {
       <Typography level="h4" component="h1">
         Hello {data.firstName} {data.lastName}!
       </Typography>
-      <Form action="/logout" method="post">
-        <button>Logout</button>
-      </Form>
+      <Button component={Link} to="/logout">
+        Logout
+      </Button>
     </div>
   );
 }
