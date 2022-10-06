@@ -13,6 +13,7 @@ const SidebarContext = createContext<Props>(null as unknown as Props);
 interface Props {
   user: UserInfo;
   fixed?: boolean;
+  onItemClick?: () => void;
 }
 
 export function Sidebar(props: Props) {
@@ -50,11 +51,16 @@ interface SidebarItemProps {
 }
 
 function SidebarItem({ to, icon, children }: SidebarItemProps) {
-  const { fixed } = useContext(SidebarContext);
+  const { fixed, onItemClick } = useContext(SidebarContext);
   const match = useMatch({ path: to, end: false });
   return (
     <ListItem>
-      <ListItemButton component={Link} to={to} selected={!!match}>
+      <ListItemButton
+        onClick={onItemClick}
+        component={Link}
+        to={to}
+        selected={!!match}
+      >
         {icon && (
           <Box
             component="span"

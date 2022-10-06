@@ -44,7 +44,7 @@ export function MobileMenu({ user }: Props) {
         >
           <Typography level="h4">Dorm Parcel Manager</Typography>
           <Box sx={{ marginTop: 1 }}>
-            <Sidebar user={user} />
+            <Sidebar user={user} onItemClick={onClose} />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Divider sx={{ margin: 0, marginTop: 2, marginBottom: 2 }} />
