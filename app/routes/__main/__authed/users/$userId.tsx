@@ -15,7 +15,7 @@ import { MdArrowBackIosNew, MdDelete, MdEdit } from "react-icons/md";
 import { getGrpcContext } from "~/auth/utils";
 import { userServiceClient } from "~/client";
 import { AvatarInitials } from "~/components/AvatarInitials";
-import { FadeModal } from "~/components/FadeModal";
+import { FadeModal } from "~/components/Modals";
 import { useDisclosure } from "~/hooks/useDisclosure";
 import { UserType } from "~/proto/common";
 import { Timestamp } from "~/proto/google/protobuf/timestamp";

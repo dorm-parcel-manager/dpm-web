@@ -13,6 +13,7 @@ import { MdClose, MdLogout, MdMenu } from "react-icons/md";
 import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
 import { AvatarInitials } from "./AvatarInitials";
+import { FullscreenModal } from "./Modals";
 import { Sidebar } from "./Sidebar";
 
 interface Props {
@@ -38,11 +39,12 @@ export function MobileMenu({ user }: Props) {
       >
         {isOpen ? <MdClose /> : <MdMenu />}
       </Button>
-      <Modal open={isOpen} onClose={onClose} sx={{ zIndex: 999 }}>
-        <ModalDialog
-          layout="fullscreen"
-          sx={{ display: "flex", flexDirection: "column", paddingTop: 10 }}
-        >
+      <FullscreenModal
+        open={isOpen}
+        onClose={onClose}
+        sx={{ display: "flex", flexDirection: "column", paddingTop: 10 }}
+      >
+        <>
           <Typography level="h4">Dorm Parcel Manager</Typography>
           <Box sx={{ marginTop: 1 }}>
             <Sidebar user={user} onItemClick={onClose} />
@@ -72,8 +74,8 @@ export function MobileMenu({ user }: Props) {
           >
             Logout
           </Button>
-        </ModalDialog>
-      </Modal>
+        </>
+      </FullscreenModal>
     </>
   );
 }
