@@ -12,6 +12,7 @@ import { Link } from "@remix-run/react";
 import { MdClose, MdLogout, MdMenu } from "react-icons/md";
 import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
+import { AvatarInitials } from "./AvatarInitials";
 import { Sidebar } from "./Sidebar";
 
 interface Props {
@@ -56,12 +57,9 @@ export function MobileMenu({ user }: Props) {
               marginBottom: 2,
             }}
           >
-            <Avatar
-              alt={`${user.firstName} ${user.lastName}`}
-              src={user.picture}
-              size="sm"
-              sx={{ marginRight: 1.5 }}
-            />
+            <Avatar src={user.picture} size="sm" sx={{ marginRight: 1.5 }}>
+              <AvatarInitials user={user} />
+            </Avatar>
             <Typography component="span">
               {user.firstName} {user.lastName}
             </Typography>

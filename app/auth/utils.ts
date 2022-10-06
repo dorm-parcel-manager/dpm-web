@@ -1,3 +1,4 @@
+import type { Context } from "~/proto/common";
 import { authenticator } from "~/services/auth.server";
 
 export async function getUser(request: Request) {
@@ -5,4 +6,12 @@ export async function getUser(request: Request) {
     failureRedirect: "/login",
   });
   return user;
+}
+
+export async function getGrpcContext(request: Request): Promise<Context> {
+  const user = await getUser(request);
+  return {
+    userId: user.id,
+    userType: user.type,
+  };
 }

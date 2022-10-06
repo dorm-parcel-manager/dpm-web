@@ -20,6 +20,7 @@
     "@remix-run/react": "^1.7.1",
     "@remix-run/serve": "^1.7.1",
     "@types/google-one-tap": "^1.2.2",
+    "date-fns": "^2.29.3",
     "google-auth-library": "^8.5.2",
     "modern-css-reset": "^1.4.0",
     "react": "^18.2.0",

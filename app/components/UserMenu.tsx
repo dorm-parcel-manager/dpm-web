@@ -4,6 +4,7 @@ import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
 import { MdLogout } from "react-icons/md";
 import { Link } from "@remix-run/react";
+import { AvatarInitials } from "./AvatarInitials";
 
 interface Props {
   user: UserInfo;
@@ -20,11 +21,9 @@ export function UserMenu({ user }: Props) {
         onClick={onOpen}
         variant="outlined"
         startDecorator={
-          <Avatar
-            alt={`${user.firstName} ${user.lastName}`}
-            src={user.picture}
-            size="sm"
-          />
+          <Avatar src={user.picture} size="sm">
+            <AvatarInitials user={user} />
+          </Avatar>
         }
         sx={{
           display: {
