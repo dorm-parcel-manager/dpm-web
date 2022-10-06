@@ -2,7 +2,7 @@ import { Box, Container as JoyContainer, styled, Typography } from "@mui/joy";
 import { Stack } from "@mui/system";
 import { useCallback, useEffect, useRef } from "react";
 import { useOnLoad } from "~/hooks/useOnLoad";
-import { useSubmit } from "@remix-run/react";
+import { useSearchParams, useSubmit } from "@remix-run/react";
 import { renderButton, setGoogleSignInCallback } from "~/auth/googleSignIn";
 import logo from "~/assets/images/logo.svg";
 import type { LoaderFunction } from "@remix-run/node";
@@ -36,6 +36,8 @@ const LogoImg = styled("img")({
 export default function Login() {
   const submit = useSubmit();
   const buttonRef = useRef<HTMLDivElement>(null);
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("r");
 
   useOnLoad(
     useCallback(() => {
@@ -47,12 +49,13 @@ export default function Login() {
     setGoogleSignInCallback((response) => {
       const data = new FormData();
       data.append("credential", response.credential);
+      data.append("redirect", redirect || "");
       submit(data, {
         method: "post",
         action: "/auth/google/token",
       });
     });
-  }, [submit]);
+  }, [submit, redirect]);
 
   return (
     <Container>
