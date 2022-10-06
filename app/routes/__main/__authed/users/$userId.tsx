@@ -9,9 +9,8 @@ import {
   useSubmit,
   useTransition,
 } from "@remix-run/react";
-import { format } from "date-fns";
-
 import { MdArrowBackIosNew, MdDelete, MdEdit } from "react-icons/md";
+import { format } from "~/utils";
 import { getGrpcContext } from "~/auth/utils";
 import { userServiceClient } from "~/client";
 import { AvatarInitials } from "~/components/AvatarInitials";
