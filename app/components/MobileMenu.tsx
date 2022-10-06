@@ -23,7 +23,18 @@ export function MobileMenu({ user }: Props) {
 
   return (
     <>
-      <Button onClick={onToggle} variant="outlined" sx={{ fontSize: 20 }}>
+      <Button
+        onClick={onToggle}
+        variant="outlined"
+        size="sm"
+        sx={{
+          display: { xs: "block", sm: "none" },
+          fontSize: 16,
+          padding: "7px",
+          width: 32,
+          height: 32,
+        }}
+      >
         {isOpen ? <MdClose /> : <MdMenu />}
       </Button>
       <Modal open={isOpen} onClose={onClose} sx={{ zIndex: 999 }}>

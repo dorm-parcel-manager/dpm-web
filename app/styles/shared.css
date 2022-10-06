@@ -7,7 +7,7 @@ body {
 }
 
 [data-joy-color-scheme="dark"] {
-  --appbar-background: rgba(9, 9, 13, 0.7);
+  --appbar-background: rgba(19, 20, 24, 0.7);
 }
 
 iframe {

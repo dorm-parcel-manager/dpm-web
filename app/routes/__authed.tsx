@@ -53,7 +53,8 @@ export default function AuthedLayout() {
         <Toolbar>
           <Box component="img" src={logo} sx={{ width: 36, height: 36 }} />
           <Box sx={{ flexGrow: 1 }} />
-          {isDesktop ? <UserMenu user={user} /> : <MobileMenu user={user} />}
+          <UserMenu user={user} />
+          {!isDesktop && <MobileMenu user={user} />}
         </Toolbar>
       </AppBar>
       <Box sx={{ display: "flex", flexDirection: "row" }}>

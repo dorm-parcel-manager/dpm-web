@@ -26,6 +26,12 @@ export function UserMenu({ user }: Props) {
             size="sm"
           />
         }
+        sx={{
+          display: {
+            xs: "none",
+            sm: "flex",
+          },
+        }}
       >
         {user.firstName}
       </Button>
