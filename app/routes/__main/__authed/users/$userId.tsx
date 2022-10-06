@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, Typography } from "@mui/joy";
+import { Avatar, Box, Button, Grid, IconButton, Typography } from "@mui/joy";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -67,14 +67,15 @@ export default function UserDetail() {
   return (
     <div>
       <Box sx={{ display: "flex", alignItems: "baseline" }}>
-        <Button
+        <IconButton
           onClick={() => navigate(-1)}
+          variant="solid"
           size="sm"
           disabled={isLoading}
           sx={{ marginRight: 2 }}
         >
           <MdArrowBackIosNew />
-        </Button>
+        </IconButton>
         <Typography level="h4" sx={{ display: { xs: "none", md: "block" } }}>
           {user.firstName} {user.lastName}
         </Typography>

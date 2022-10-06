@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Modal,
   ModalDialog,
   Typography,
@@ -25,20 +26,18 @@ export function MobileMenu({ user }: Props) {
 
   return (
     <>
-      <Button
+      <IconButton
         onClick={onToggle}
         variant="outlined"
         size="sm"
         sx={{
           display: { xs: "block", sm: "none" },
           fontSize: 16,
-          padding: "7px",
-          width: 32,
-          height: 32,
+          paddingTop: "4px",
         }}
       >
         {isOpen ? <MdClose /> : <MdMenu />}
-      </Button>
+      </IconButton>
       <FullscreenModal
         open={isOpen}
         onClose={onClose}
