@@ -1,9 +1,9 @@
-import type { Theme } from "@mui/joy";
+import { Theme } from "@mui/joy";
 import { Divider } from "@mui/joy";
 import { Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { getUser } from "~/auth/utils";
 import type { UserInfo } from "~/proto/user-service";
 
@@ -51,7 +51,9 @@ export default function AuthedLayout() {
     <div>
       <AppBar>
         <Toolbar>
-          <Box component="img" src={logo} sx={{ width: 36, height: 36 }} />
+          <Link to="/">
+            <Box component="img" src={logo} sx={{ width: 36, height: 36 }} />
+          </Link>
           <Box sx={{ flexGrow: 1 }} />
           <UserMenu user={user} />
           {!isDesktop && <MobileMenu user={user} />}
