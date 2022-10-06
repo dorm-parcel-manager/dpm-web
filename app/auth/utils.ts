@@ -1,10 +1,12 @@
+import { userServiceClient } from "~/client";
 import type { Context } from "~/proto/common";
 import { authenticator } from "~/services/auth.server";
 
 export async function getUser(request: Request) {
-  const user = await authenticator.isAuthenticated(request, {
+  const { id } = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+  const user = await userServiceClient.getUserInfo({ id }).response;
   return user;
 }
 
