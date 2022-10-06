@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Modal,
-  ModalDialog,
-  Typography,
-} from "@mui/joy";
+import { Avatar, Box, Button, Divider, IconButton, Typography } from "@mui/joy";
 import { Link } from "@remix-run/react";
 
 import { MdClose, MdLogout, MdMenu } from "react-icons/md";
