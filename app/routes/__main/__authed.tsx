@@ -86,7 +86,3 @@ export default function AuthedLayout() {
     </div>
   );
 }
-
-export function CatchBoundary() {
-  return <div>Oops!</div>;
-}
