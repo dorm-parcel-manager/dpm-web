@@ -4,7 +4,12 @@ import { Box, List, ListItem, ListItemButton } from "@mui/joy";
 import { Link } from "@remix-run/react";
 import { useMatch } from "react-router";
 import { FiPackage } from "react-icons/fi";
-import { MdDashboard, MdPeople, MdPerson } from "react-icons/md";
+import {
+  MdDashboard,
+  MdNotifications,
+  MdPeople,
+  MdPerson,
+} from "react-icons/md";
 import type { UserInfo } from "~/proto/user-service";
 import { UserType } from "~/proto/common";
 
@@ -30,6 +35,9 @@ export function Sidebar(props: Props) {
         </SidebarItem>
         <SidebarItem to="parcels" icon={<FiPackage />}>
           Parcels
+        </SidebarItem>
+        <SidebarItem to="notifications" icon={<MdNotifications />}>
+          Notifications
         </SidebarItem>
         {user.type == UserType.TYPE_ADMIN && (
           <SidebarItem to="users" icon={<MdPeople />}>
