@@ -121,7 +121,7 @@ export default function UserDetail() {
         </Grid>
         <Grid xs={6}>
           <Typography level="h5">Type</Typography>
-          <Typography>{UserType[user.type]}</Typography>
+          <Typography>{typeNameMap[user.type]}</Typography>
         </Grid>
         <Grid xs={6}>
           <Typography level="h5">Google ID</Typography>
@@ -175,3 +175,9 @@ export default function UserDetail() {
     </div>
   );
 }
+
+const typeNameMap = {
+  [UserType.TYPE_STUDENT]: "Student",
+  [UserType.TYPE_STAFF]: "Staff",
+  [UserType.TYPE_ADMIN]: "Admin",
+};
