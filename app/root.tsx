@@ -14,11 +14,11 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import modernCssReset from "modern-css-reset/dist/reset.min.css";
 import { useInitGoogleSignIn } from "~/auth/googleSignIn";
 import { GOOGLE_CLIENT_ID } from "./env";
 
 import globalStyles from "~/styles/shared.css";
+import { CssBaseline } from "@mui/material";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -50,6 +50,7 @@ export default function App() {
       <body>
         {getInitColorSchemeScript({ defaultMode: "system" })}
         <CssVarsProvider defaultMode="system">
+          <CssBaseline />
           <Outlet />
         </CssVarsProvider>
         <ScrollRestoration />
@@ -62,14 +63,5 @@ export default function App() {
 }
 
 export const links: LinksFunction = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: modernCssReset,
-    },
-    {
-      rel: "stylesheet",
-      href: globalStyles,
-    },
-  ];
+  return [{ rel: "stylesheet", href: globalStyles }];
 };
