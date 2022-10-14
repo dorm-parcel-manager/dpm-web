@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useContext, createContext } from "react";
+import type { Theme } from "@mui/joy";
 import { Box, List, ListItem, ListItemButton } from "@mui/joy";
 import { Link } from "@remix-run/react";
 import { useMatch } from "react-router";
@@ -13,6 +14,7 @@ import {
 import type { UserInfo } from "~/proto/user-service";
 import { UserType } from "~/proto/common";
 import { ModeToggle } from "./ModeToggle";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const SidebarContext = createContext<Props>(null as unknown as Props);
 
@@ -24,6 +26,8 @@ interface Props {
 
 export function Sidebar(props: Props) {
   const { user } = props;
+  const isSm = useMediaQuery<Theme>((theme) => theme.breakpoints.only("sm"));
+
   return (
     <SidebarContext.Provider value={props}>
       <List
@@ -49,7 +53,7 @@ export function Sidebar(props: Props) {
           Profile
         </SidebarItem>
       </List>
-      <ModeToggle />
+      <ModeToggle small={isSm} />
     </SidebarContext.Provider>
   );
 }
