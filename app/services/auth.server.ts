@@ -3,9 +3,9 @@ import { FormStrategy } from "remix-auth-form";
 import type { UserInfo } from "~/proto/user-service";
 import { sessionStorage } from "~/services/session.server";
 import { userServiceClient } from "~/client";
-import { GoogleStrategy } from "~/auth/google";
 import { BASE_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "~/env";
 import { OAuth2Client } from "google-auth-library";
+import { GoogleStrategy } from "remix-auth-google";
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
