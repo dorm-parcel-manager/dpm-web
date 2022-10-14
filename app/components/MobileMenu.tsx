@@ -1,6 +1,4 @@
-import type { Theme } from "@mui/joy";
 import { Avatar, Box, Button, Divider, IconButton, Typography } from "@mui/joy";
-import { useMediaQuery } from "@mui/material";
 import { Link } from "@remix-run/react";
 
 import { MdClose, MdLogout, MdMenu } from "react-icons/md";
@@ -15,11 +13,8 @@ interface Props {
 }
 
 export function MobileMenu({ user }: Props) {
-  const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
   const { isOpen, onToggle, onClose } = useDisclosure();
-  if (isDesktop) {
-    return null;
-  }
+
   return (
     <>
       <IconButton
