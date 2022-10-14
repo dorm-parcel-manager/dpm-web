@@ -32,6 +32,7 @@ export function Sidebar(props: Props) {
     <SidebarContext.Provider value={props}>
       <List
         sx={{
+          minWidth: 40,
           "--List-item-radius": "8px",
         }}
       >
