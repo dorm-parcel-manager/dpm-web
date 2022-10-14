@@ -12,6 +12,7 @@ import {
 } from "react-icons/md";
 import type { UserInfo } from "~/proto/user-service";
 import { UserType } from "~/proto/common";
+import { ModeToggle } from "./ModeToggle";
 
 const SidebarContext = createContext<Props>(null as unknown as Props);
 
@@ -48,6 +49,7 @@ export function Sidebar(props: Props) {
           Profile
         </SidebarItem>
       </List>
+      <ModeToggle />
     </SidebarContext.Provider>
   );
 }

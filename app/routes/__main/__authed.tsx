@@ -61,6 +61,7 @@ export default function AuthedLayout() {
           sx={{
             display: { xs: "none", sm: "flex" },
             minWidth: { xs: 0, md: 200 },
+            flexDirection: "column",
             marginTop: 9,
             paddingLeft: 2,
           }}

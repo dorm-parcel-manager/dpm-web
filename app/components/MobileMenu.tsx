@@ -8,7 +8,6 @@ import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
 import { AvatarInitials } from "./AvatarInitials";
 import { FullscreenModal } from "./Modals";
-import { ModeToggle } from "./ModeToggle";
 import { Sidebar } from "./Sidebar";
 
 interface Props {
@@ -19,11 +18,10 @@ export function MobileMenu({ user }: Props) {
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
   const { isOpen, onToggle, onClose } = useDisclosure();
   if (isDesktop) {
-    return <ModeToggle />;
+    return null;
   }
   return (
     <>
-      {isOpen && <ModeToggle />}
       <IconButton
         onClick={onToggle}
         variant="outlined"
