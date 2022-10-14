@@ -1,4 +1,3 @@
-import { Theme } from "@mui/joy";
 import { Divider } from "@mui/joy";
 import { Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
@@ -10,7 +9,6 @@ import type { UserInfo } from "~/proto/user-service";
 import logo from "~/assets/images/logo.svg";
 import { UserMenu } from "~/components/UserMenu";
 import { MobileMenu } from "~/components/MobileMenu";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { Sidebar } from "~/components/Sidebar";
 
 type LoaderData = UserInfo;
@@ -45,7 +43,6 @@ const Toolbar = styled("div")({
 
 export default function AuthedLayout() {
   const user = useLoaderData<LoaderData>();
-  const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 
   return (
     <div>
@@ -55,8 +52,8 @@ export default function AuthedLayout() {
             <Box component="img" src={logo} sx={{ width: 36, height: 36 }} />
           </Link>
           <Box sx={{ flexGrow: 1 }} />
+          <MobileMenu user={user} />
           <UserMenu user={user} />
-          {!isDesktop && <MobileMenu user={user} />}
         </Toolbar>
       </AppBar>
       <Box sx={{ display: "flex", flexDirection: "row" }}>

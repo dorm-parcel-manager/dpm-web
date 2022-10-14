@@ -1,4 +1,6 @@
+import type { Theme } from "@mui/joy";
 import { Avatar, Box, Button, Divider, IconButton, Typography } from "@mui/joy";
+import { useMediaQuery } from "@mui/material";
 import { Link } from "@remix-run/react";
 
 import { MdClose, MdLogout, MdMenu } from "react-icons/md";
@@ -6,6 +8,7 @@ import { useDisclosure } from "~/hooks/useDisclosure";
 import type { UserInfo } from "~/proto/user-service";
 import { AvatarInitials } from "./AvatarInitials";
 import { FullscreenModal } from "./Modals";
+import { ModeToggle } from "./ModeToggle";
 import { Sidebar } from "./Sidebar";
 
 interface Props {
@@ -13,10 +16,14 @@ interface Props {
 }
 
 export function MobileMenu({ user }: Props) {
+  const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
   const { isOpen, onToggle, onClose } = useDisclosure();
-
+  if (isDesktop) {
+    return <ModeToggle />;
+  }
   return (
     <>
+      {isOpen && <ModeToggle />}
       <IconButton
         onClick={onToggle}
         variant="outlined"

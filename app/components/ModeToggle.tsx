@@ -1,5 +1,6 @@
-import { Button, useColorScheme } from "@mui/joy";
+import { IconButton, useColorScheme } from "@mui/joy";
 import { useCallback, useEffect, useState } from "react";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { usePrefersColorSchemeDark } from "../hooks/usePrefersColorSchemeDark";
 
 const query = "(prefers-color-scheme: dark)";
@@ -34,8 +35,9 @@ export function ModeToggle() {
   }
 
   return (
-    <Button
-      variant="outlined"
+    <IconButton
+      variant="plain"
+      sx={{ marginRight: 1 }}
       onClick={() => {
         if (mode === "light") {
           setMode("dark");
@@ -44,7 +46,7 @@ export function ModeToggle() {
         }
       }}
     >
-      {mode === "light" ? "Turn dark" : "Turn light"}
-    </Button>
+      {mode === "light" ? <FiMoon /> : <FiSun />}
+    </IconButton>
   );
 }
