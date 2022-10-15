@@ -1,12 +1,34 @@
 import type { OptionsWithTZ } from "date-fns-tz";
-import { formatInTimeZone } from "date-fns-tz";
+import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
+import { formatRelative as dateFnsFormatRelative } from "date-fns";
+
+const localTimeZone = "+07:00";
 
 export function format(
   date: Date | number,
   format: string,
   options: OptionsWithTZ = {}
 ) {
-  return formatInTimeZone(date, "+07:00", format, options);
+  return formatInTimeZone(date, localTimeZone, format, options);
+}
+
+export function formatRelative(
+  date: Date,
+  baseDate: Date,
+  options?: {
+    locale?: Locale;
+    weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  }
+): string {
+  return dateFnsFormatRelative(
+    utcToLocalTime(date),
+    utcToLocalTime(baseDate),
+    options
+  );
+}
+
+export function utcToLocalTime(date: Date) {
+  return utcToZonedTime(date, localTimeZone);
 }
 
 export function objectFromFormData(formData: FormData) {

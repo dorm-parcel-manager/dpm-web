@@ -1,13 +1,33 @@
-import { Box, Button, Typography } from "@mui/joy";
-import { Link } from "@remix-run/react";
+import { Box, Button, Stack, Typography } from "@mui/joy";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import { MdAdd } from "react-icons/md";
+import { getGrpcContext } from "~/auth/utils";
+import { parcelServiceClient } from "~/client";
+import { ParcelCard } from "~/components/ParcelCard";
 import { ParcelsEmpty } from "~/icons/ParcelsEmpty";
+import type { Parcel } from "~/proto/parcel-service";
+import { ParcelStatus } from "~/proto/parcel-service";
 
-const mockParcels: unknown[] = [];
+type LoaderData = Parcel[];
+
+export async function loader({ request }: LoaderArgs) {
+  const context = await getGrpcContext(request);
+  const { parcels } = await parcelServiceClient.studentGetParcels({ context })
+    .response;
+  return json<LoaderData>(parcels);
+}
 
 export default function Parcels() {
-  const parcels = mockParcels;
-  const isEmpty = parcels.length === 0;
+  const parcels = useLoaderData<LoaderData>();
+  const ongoingParcels = parcels.filter(
+    (parcel) => parcel.status !== ParcelStatus.PARCEL_PICKED_UP
+  );
+  const pastParcels = parcels.filter(
+    (parcel) => parcel.status === ParcelStatus.PARCEL_PICKED_UP
+  );
+  const isEmpty = ongoingParcels.length === 0;
 
   return (
     <div>
@@ -26,8 +46,26 @@ export default function Parcels() {
           </Button>
         )}
       </Box>
-      {isEmpty ? <EmptyParcelView /> : null}
+      {isEmpty ? <EmptyParcelView /> : <ParcelsView parcels={ongoingParcels} />}
+      {pastParcels.length > 0 && (
+        <>
+          <Typography level="h4" sx={{ marginTop: 2 }}>
+            Past Parcels
+          </Typography>
+          <ParcelsView parcels={pastParcels} />
+        </>
+      )}
     </div>
+  );
+}
+
+function ParcelsView({ parcels }: { parcels: Parcel[] }) {
+  return (
+    <Stack direction="column" spacing={2} sx={{ marginTop: 2 }}>
+      {parcels.map((parcel) => (
+        <ParcelCard key={parcel.id} parcel={parcel} />
+      ))}
+    </Stack>
   );
 }
 
