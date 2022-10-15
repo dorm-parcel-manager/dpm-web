@@ -24,6 +24,7 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary({ error }: RemixErrorBoundary["props"]) {
+  console.error(error);
   const mappedError = (error && mapGrpcError(error)) ?? defaultError;
   return <ErrorView error={mappedError} />;
 }
