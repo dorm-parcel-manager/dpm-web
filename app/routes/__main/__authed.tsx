@@ -1,4 +1,5 @@
-import { Divider, Theme } from "@mui/joy";
+import type { Theme } from "@mui/joy";
+import { Divider } from "@mui/joy";
 import { Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
