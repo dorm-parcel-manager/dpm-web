@@ -10,46 +10,71 @@ import "google/protobuf/timestamp.proto";
 service ParcelService {
   rpc Hello (HelloRequest) returns (HelloResponse) {}
   rpc GetParcels (GetParcelsRequest) returns (GetParcelsResponse) {}
+  rpc StudentGetParcels (StudentGetParcelsRequest) returns (StudentGetParcelsResponse) {}
   rpc GetParcel (GetParcelRequest) returns (GetParcelResponse) {}
   rpc CreateParcel (CreateParcelRequest) returns (Empty) {}
   rpc UpdateParcel (UpdateParcelRequest) returns (Empty) {}
   rpc DeleteParcel (DeleteParcelRequest) returns (Empty) {}
   rpc StaffAcceptDelivery (StaffAcceptDeliveryRequest) returns (Empty) {}
   rpc StudentClaimParcel (StudentClaimParcelRequest) returns (Empty) {}
-  rpc StaffomfirmClaimParcel (StaffConfirmClaimParcelRequest) returns (Empty) {}
 }
 
 message Parcel {
   int32 id = 1;
   int32 owner_id = 2;
-  google.protobuf.Timestamp arrival_date = 3;
-  string transport_company = 4;
-  string tracking_number = 5;
-  string sender = 6;
-  ParcelStatus status = 7;
+  optional google.protobuf.Timestamp arrival_date = 3;
+  optional google.protobuf.Timestamp picked_up_date = 4;
+  string name = 5;
+  string transport_company = 6;
+  string tracking_number = 7;
+  string sender = 8;
+  string description = 9;
+  ParcelStatus status = 10;
+
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }
 
 enum ParcelStatus {
-  PARCEL_INAWAIT = 0;
-  PARCEL_ACCEPTED = 1;
-  PARCEL_STUDENT_CLAIMED = 2;
-  PARCEL_STAFF_CONFIRM_CLAIMED = 3;
+  PARCEL_REGISTERED = 0;
+  PARCEL_ARRIVED = 1;
+  PARCEL_PICKED_UP = 2;
 }
 
 message GetParcelsRequest {
   Context context = 1;
+  GetParcelsData data = 2;
 }
 
-message GetParcelsResponse{
+message GetParcelsData {
+  optional int32 owner_id = 1;
+  optional google.protobuf.Timestamp arrival_date = 2;
+  optional string name = 3;
+  optional string transport_company = 4;
+  optional string tracking_number = 5;
+  optional string sender = 6;
+  optional string description = 7;
+  optional ParcelStatus status = 8;
+}
+
+message GetParcelsResponse {
   repeated Parcel parcels = 1;
 }
 
-message GetParcelRequest{
+message StudentGetParcelsRequest {
+  Context context = 1;
+}
+
+message StudentGetParcelsResponse {
+  repeated Parcel parcels = 1;
+}
+
+message GetParcelRequest {
   Context context = 1;
   uint32 id = 2;
 }
 
-message GetParcelResponse{
+message GetParcelResponse {
   Parcel parcel = 1;
 }
 
@@ -60,7 +85,7 @@ message CreateParcelRequest {
 
 message CreateParcelData {
   int32 owner_id = 1;
-  google.protobuf.Timestamp arrival_date = 2;
+  string name = 2;
   string transport_company = 3;
   string tracking_number = 4;
   string sender = 5;
@@ -75,10 +100,12 @@ message UpdateParcelRequest {
 message UpdateParcelData {
   int32 owner_id = 1;
   google.protobuf.Timestamp arrival_date = 2;
-  string transport_company = 3;
-  string tracking_number = 4;
-  string sender = 5;
-  ParcelStatus status = 6;
+  string name = 3;
+  string transport_company = 4;
+  string tracking_number = 5;
+  string sender = 6;
+  ParcelStatus status = 7;
+  string description = 8;
 }
 
 message DeleteParcelRequest {
@@ -89,14 +116,14 @@ message DeleteParcelRequest {
 message StaffAcceptDeliveryRequest {
   Context context = 1;
   uint32 id = 2;
+  StaffAcceptDeliveryData data = 3;
+}
+
+message StaffAcceptDeliveryData {
+  string description = 1;
 }
 
 message StudentClaimParcelRequest {
-  Context context = 1;
-  uint32 id = 2;
-}
-
-message StaffConfirmClaimParcelRequest {
   Context context = 1;
   uint32 id = 2;
 }

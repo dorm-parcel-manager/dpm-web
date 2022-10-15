@@ -30,25 +30,45 @@ export interface Parcel {
      */
     ownerId: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp arrival_date = 3;
+     * @generated from protobuf field: optional google.protobuf.Timestamp arrival_date = 3;
      */
     arrivalDate?: Timestamp;
     /**
-     * @generated from protobuf field: string transport_company = 4;
+     * @generated from protobuf field: optional google.protobuf.Timestamp picked_up_date = 4;
+     */
+    pickedUpDate?: Timestamp;
+    /**
+     * @generated from protobuf field: string name = 5;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string transport_company = 6;
      */
     transportCompany: string;
     /**
-     * @generated from protobuf field: string tracking_number = 5;
+     * @generated from protobuf field: string tracking_number = 7;
      */
     trackingNumber: string;
     /**
-     * @generated from protobuf field: string sender = 6;
+     * @generated from protobuf field: string sender = 8;
      */
     sender: string;
     /**
-     * @generated from protobuf field: pb.ParcelStatus status = 7;
+     * @generated from protobuf field: string description = 9;
+     */
+    description: string;
+    /**
+     * @generated from protobuf field: pb.ParcelStatus status = 10;
      */
     status: ParcelStatus;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 11;
+     */
+    createdAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 12;
+     */
+    updatedAt?: Timestamp;
 }
 /**
  * @generated from protobuf message pb.GetParcelsRequest
@@ -58,11 +78,70 @@ export interface GetParcelsRequest {
      * @generated from protobuf field: pb.Context context = 1;
      */
     context?: Context;
+    /**
+     * @generated from protobuf field: pb.GetParcelsData data = 2;
+     */
+    data?: GetParcelsData;
+}
+/**
+ * @generated from protobuf message pb.GetParcelsData
+ */
+export interface GetParcelsData {
+    /**
+     * @generated from protobuf field: optional int32 owner_id = 1;
+     */
+    ownerId?: number;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Timestamp arrival_date = 2;
+     */
+    arrivalDate?: Timestamp;
+    /**
+     * @generated from protobuf field: optional string name = 3;
+     */
+    name?: string;
+    /**
+     * @generated from protobuf field: optional string transport_company = 4;
+     */
+    transportCompany?: string;
+    /**
+     * @generated from protobuf field: optional string tracking_number = 5;
+     */
+    trackingNumber?: string;
+    /**
+     * @generated from protobuf field: optional string sender = 6;
+     */
+    sender?: string;
+    /**
+     * @generated from protobuf field: optional string description = 7;
+     */
+    description?: string;
+    /**
+     * @generated from protobuf field: optional pb.ParcelStatus status = 8;
+     */
+    status?: ParcelStatus;
 }
 /**
  * @generated from protobuf message pb.GetParcelsResponse
  */
 export interface GetParcelsResponse {
+    /**
+     * @generated from protobuf field: repeated pb.Parcel parcels = 1;
+     */
+    parcels: Parcel[];
+}
+/**
+ * @generated from protobuf message pb.StudentGetParcelsRequest
+ */
+export interface StudentGetParcelsRequest {
+    /**
+     * @generated from protobuf field: pb.Context context = 1;
+     */
+    context?: Context;
+}
+/**
+ * @generated from protobuf message pb.StudentGetParcelsResponse
+ */
+export interface StudentGetParcelsResponse {
     /**
      * @generated from protobuf field: repeated pb.Parcel parcels = 1;
      */
@@ -112,9 +191,9 @@ export interface CreateParcelData {
      */
     ownerId: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp arrival_date = 2;
+     * @generated from protobuf field: string name = 2;
      */
-    arrivalDate?: Timestamp;
+    name: string;
     /**
      * @generated from protobuf field: string transport_company = 3;
      */
@@ -158,21 +237,29 @@ export interface UpdateParcelData {
      */
     arrivalDate?: Timestamp;
     /**
-     * @generated from protobuf field: string transport_company = 3;
+     * @generated from protobuf field: string name = 3;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string transport_company = 4;
      */
     transportCompany: string;
     /**
-     * @generated from protobuf field: string tracking_number = 4;
+     * @generated from protobuf field: string tracking_number = 5;
      */
     trackingNumber: string;
     /**
-     * @generated from protobuf field: string sender = 5;
+     * @generated from protobuf field: string sender = 6;
      */
     sender: string;
     /**
-     * @generated from protobuf field: pb.ParcelStatus status = 6;
+     * @generated from protobuf field: pb.ParcelStatus status = 7;
      */
     status: ParcelStatus;
+    /**
+     * @generated from protobuf field: string description = 8;
+     */
+    description: string;
 }
 /**
  * @generated from protobuf message pb.DeleteParcelRequest
@@ -199,6 +286,19 @@ export interface StaffAcceptDeliveryRequest {
      * @generated from protobuf field: uint32 id = 2;
      */
     id: number;
+    /**
+     * @generated from protobuf field: pb.StaffAcceptDeliveryData data = 3;
+     */
+    data?: StaffAcceptDeliveryData;
+}
+/**
+ * @generated from protobuf message pb.StaffAcceptDeliveryData
+ */
+export interface StaffAcceptDeliveryData {
+    /**
+     * @generated from protobuf field: string description = 1;
+     */
+    description: string;
 }
 /**
  * @generated from protobuf message pb.StudentClaimParcelRequest
@@ -214,38 +314,21 @@ export interface StudentClaimParcelRequest {
     id: number;
 }
 /**
- * @generated from protobuf message pb.StaffConfirmClaimParcelRequest
- */
-export interface StaffConfirmClaimParcelRequest {
-    /**
-     * @generated from protobuf field: pb.Context context = 1;
-     */
-    context?: Context;
-    /**
-     * @generated from protobuf field: uint32 id = 2;
-     */
-    id: number;
-}
-/**
  * @generated from protobuf enum pb.ParcelStatus
  */
 export enum ParcelStatus {
     /**
-     * @generated from protobuf enum value: PARCEL_INAWAIT = 0;
+     * @generated from protobuf enum value: PARCEL_REGISTERED = 0;
      */
-    PARCEL_INAWAIT = 0,
+    PARCEL_REGISTERED = 0,
     /**
-     * @generated from protobuf enum value: PARCEL_ACCEPTED = 1;
+     * @generated from protobuf enum value: PARCEL_ARRIVED = 1;
      */
-    PARCEL_ACCEPTED = 1,
+    PARCEL_ARRIVED = 1,
     /**
-     * @generated from protobuf enum value: PARCEL_STUDENT_CLAIMED = 2;
+     * @generated from protobuf enum value: PARCEL_PICKED_UP = 2;
      */
-    PARCEL_STUDENT_CLAIMED = 2,
-    /**
-     * @generated from protobuf enum value: PARCEL_STAFF_CONFIRM_CLAIMED = 3;
-     */
-    PARCEL_STAFF_CONFIRM_CLAIMED = 3
+    PARCEL_PICKED_UP = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class Parcel$Type extends MessageType<Parcel> {
@@ -254,14 +337,19 @@ class Parcel$Type extends MessageType<Parcel> {
             { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "owner_id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "arrival_date", kind: "message", T: () => Timestamp },
-            { no: 4, name: "transport_company", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "tracking_number", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "status", kind: "enum", T: () => ["pb.ParcelStatus", ParcelStatus] }
+            { no: 4, name: "picked_up_date", kind: "message", T: () => Timestamp },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "transport_company", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "tracking_number", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "status", kind: "enum", T: () => ["pb.ParcelStatus", ParcelStatus] },
+            { no: 11, name: "created_at", kind: "message", T: () => Timestamp },
+            { no: 12, name: "updated_at", kind: "message", T: () => Timestamp }
         ]);
     }
     create(value?: PartialMessage<Parcel>): Parcel {
-        const message = { id: 0, ownerId: 0, transportCompany: "", trackingNumber: "", sender: "", status: 0 };
+        const message = { id: 0, ownerId: 0, name: "", transportCompany: "", trackingNumber: "", sender: "", description: "", status: 0 };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<Parcel>(this, message, value);
@@ -278,20 +366,35 @@ class Parcel$Type extends MessageType<Parcel> {
                 case /* int32 owner_id */ 2:
                     message.ownerId = reader.int32();
                     break;
-                case /* google.protobuf.Timestamp arrival_date */ 3:
+                case /* optional google.protobuf.Timestamp arrival_date */ 3:
                     message.arrivalDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.arrivalDate);
                     break;
-                case /* string transport_company */ 4:
+                case /* optional google.protobuf.Timestamp picked_up_date */ 4:
+                    message.pickedUpDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.pickedUpDate);
+                    break;
+                case /* string name */ 5:
+                    message.name = reader.string();
+                    break;
+                case /* string transport_company */ 6:
                     message.transportCompany = reader.string();
                     break;
-                case /* string tracking_number */ 5:
+                case /* string tracking_number */ 7:
                     message.trackingNumber = reader.string();
                     break;
-                case /* string sender */ 6:
+                case /* string sender */ 8:
                     message.sender = reader.string();
                     break;
-                case /* pb.ParcelStatus status */ 7:
+                case /* string description */ 9:
+                    message.description = reader.string();
+                    break;
+                case /* pb.ParcelStatus status */ 10:
                     message.status = reader.int32();
+                    break;
+                case /* google.protobuf.Timestamp created_at */ 11:
+                    message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* google.protobuf.Timestamp updated_at */ 12:
+                    message.updatedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.updatedAt);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -311,21 +414,36 @@ class Parcel$Type extends MessageType<Parcel> {
         /* int32 owner_id = 2; */
         if (message.ownerId !== 0)
             writer.tag(2, WireType.Varint).int32(message.ownerId);
-        /* google.protobuf.Timestamp arrival_date = 3; */
+        /* optional google.protobuf.Timestamp arrival_date = 3; */
         if (message.arrivalDate)
             Timestamp.internalBinaryWrite(message.arrivalDate, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
-        /* string transport_company = 4; */
+        /* optional google.protobuf.Timestamp picked_up_date = 4; */
+        if (message.pickedUpDate)
+            Timestamp.internalBinaryWrite(message.pickedUpDate, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* string name = 5; */
+        if (message.name !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
+        /* string transport_company = 6; */
         if (message.transportCompany !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.transportCompany);
-        /* string tracking_number = 5; */
+            writer.tag(6, WireType.LengthDelimited).string(message.transportCompany);
+        /* string tracking_number = 7; */
         if (message.trackingNumber !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.trackingNumber);
-        /* string sender = 6; */
+            writer.tag(7, WireType.LengthDelimited).string(message.trackingNumber);
+        /* string sender = 8; */
         if (message.sender !== "")
-            writer.tag(6, WireType.LengthDelimited).string(message.sender);
-        /* pb.ParcelStatus status = 7; */
+            writer.tag(8, WireType.LengthDelimited).string(message.sender);
+        /* string description = 9; */
+        if (message.description !== "")
+            writer.tag(9, WireType.LengthDelimited).string(message.description);
+        /* pb.ParcelStatus status = 10; */
         if (message.status !== 0)
-            writer.tag(7, WireType.Varint).int32(message.status);
+            writer.tag(10, WireType.Varint).int32(message.status);
+        /* google.protobuf.Timestamp created_at = 11; */
+        if (message.createdAt)
+            Timestamp.internalBinaryWrite(message.createdAt, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
+        /* google.protobuf.Timestamp updated_at = 12; */
+        if (message.updatedAt)
+            Timestamp.internalBinaryWrite(message.updatedAt, writer.tag(12, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -340,7 +458,8 @@ export const Parcel = new Parcel$Type();
 class GetParcelsRequest$Type extends MessageType<GetParcelsRequest> {
     constructor() {
         super("pb.GetParcelsRequest", [
-            { no: 1, name: "context", kind: "message", T: () => Context }
+            { no: 1, name: "context", kind: "message", T: () => Context },
+            { no: 2, name: "data", kind: "message", T: () => GetParcelsData }
         ]);
     }
     create(value?: PartialMessage<GetParcelsRequest>): GetParcelsRequest {
@@ -358,6 +477,9 @@ class GetParcelsRequest$Type extends MessageType<GetParcelsRequest> {
                 case /* pb.Context context */ 1:
                     message.context = Context.internalBinaryRead(reader, reader.uint32(), options, message.context);
                     break;
+                case /* pb.GetParcelsData data */ 2:
+                    message.data = GetParcelsData.internalBinaryRead(reader, reader.uint32(), options, message.data);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -373,6 +495,9 @@ class GetParcelsRequest$Type extends MessageType<GetParcelsRequest> {
         /* pb.Context context = 1; */
         if (message.context)
             Context.internalBinaryWrite(message.context, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* pb.GetParcelsData data = 2; */
+        if (message.data)
+            GetParcelsData.internalBinaryWrite(message.data, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -383,6 +508,102 @@ class GetParcelsRequest$Type extends MessageType<GetParcelsRequest> {
  * @generated MessageType for protobuf message pb.GetParcelsRequest
  */
 export const GetParcelsRequest = new GetParcelsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetParcelsData$Type extends MessageType<GetParcelsData> {
+    constructor() {
+        super("pb.GetParcelsData", [
+            { no: 1, name: "owner_id", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "arrival_date", kind: "message", T: () => Timestamp },
+            { no: 3, name: "name", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "transport_company", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "tracking_number", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "sender", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "description", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "status", kind: "enum", opt: true, T: () => ["pb.ParcelStatus", ParcelStatus] }
+        ]);
+    }
+    create(value?: PartialMessage<GetParcelsData>): GetParcelsData {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<GetParcelsData>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetParcelsData): GetParcelsData {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional int32 owner_id */ 1:
+                    message.ownerId = reader.int32();
+                    break;
+                case /* optional google.protobuf.Timestamp arrival_date */ 2:
+                    message.arrivalDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.arrivalDate);
+                    break;
+                case /* optional string name */ 3:
+                    message.name = reader.string();
+                    break;
+                case /* optional string transport_company */ 4:
+                    message.transportCompany = reader.string();
+                    break;
+                case /* optional string tracking_number */ 5:
+                    message.trackingNumber = reader.string();
+                    break;
+                case /* optional string sender */ 6:
+                    message.sender = reader.string();
+                    break;
+                case /* optional string description */ 7:
+                    message.description = reader.string();
+                    break;
+                case /* optional pb.ParcelStatus status */ 8:
+                    message.status = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetParcelsData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional int32 owner_id = 1; */
+        if (message.ownerId !== undefined)
+            writer.tag(1, WireType.Varint).int32(message.ownerId);
+        /* optional google.protobuf.Timestamp arrival_date = 2; */
+        if (message.arrivalDate)
+            Timestamp.internalBinaryWrite(message.arrivalDate, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* optional string name = 3; */
+        if (message.name !== undefined)
+            writer.tag(3, WireType.LengthDelimited).string(message.name);
+        /* optional string transport_company = 4; */
+        if (message.transportCompany !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.transportCompany);
+        /* optional string tracking_number = 5; */
+        if (message.trackingNumber !== undefined)
+            writer.tag(5, WireType.LengthDelimited).string(message.trackingNumber);
+        /* optional string sender = 6; */
+        if (message.sender !== undefined)
+            writer.tag(6, WireType.LengthDelimited).string(message.sender);
+        /* optional string description = 7; */
+        if (message.description !== undefined)
+            writer.tag(7, WireType.LengthDelimited).string(message.description);
+        /* optional pb.ParcelStatus status = 8; */
+        if (message.status !== undefined)
+            writer.tag(8, WireType.Varint).int32(message.status);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.GetParcelsData
+ */
+export const GetParcelsData = new GetParcelsData$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetParcelsResponse$Type extends MessageType<GetParcelsResponse> {
     constructor() {
@@ -430,6 +651,100 @@ class GetParcelsResponse$Type extends MessageType<GetParcelsResponse> {
  * @generated MessageType for protobuf message pb.GetParcelsResponse
  */
 export const GetParcelsResponse = new GetParcelsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StudentGetParcelsRequest$Type extends MessageType<StudentGetParcelsRequest> {
+    constructor() {
+        super("pb.StudentGetParcelsRequest", [
+            { no: 1, name: "context", kind: "message", T: () => Context }
+        ]);
+    }
+    create(value?: PartialMessage<StudentGetParcelsRequest>): StudentGetParcelsRequest {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StudentGetParcelsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StudentGetParcelsRequest): StudentGetParcelsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pb.Context context */ 1:
+                    message.context = Context.internalBinaryRead(reader, reader.uint32(), options, message.context);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StudentGetParcelsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pb.Context context = 1; */
+        if (message.context)
+            Context.internalBinaryWrite(message.context, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StudentGetParcelsRequest
+ */
+export const StudentGetParcelsRequest = new StudentGetParcelsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StudentGetParcelsResponse$Type extends MessageType<StudentGetParcelsResponse> {
+    constructor() {
+        super("pb.StudentGetParcelsResponse", [
+            { no: 1, name: "parcels", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Parcel }
+        ]);
+    }
+    create(value?: PartialMessage<StudentGetParcelsResponse>): StudentGetParcelsResponse {
+        const message = { parcels: [] };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StudentGetParcelsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StudentGetParcelsResponse): StudentGetParcelsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pb.Parcel parcels */ 1:
+                    message.parcels.push(Parcel.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StudentGetParcelsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pb.Parcel parcels = 1; */
+        for (let i = 0; i < message.parcels.length; i++)
+            Parcel.internalBinaryWrite(message.parcels[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StudentGetParcelsResponse
+ */
+export const StudentGetParcelsResponse = new StudentGetParcelsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetParcelRequest$Type extends MessageType<GetParcelRequest> {
     constructor() {
@@ -590,14 +905,14 @@ class CreateParcelData$Type extends MessageType<CreateParcelData> {
     constructor() {
         super("pb.CreateParcelData", [
             { no: 1, name: "owner_id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "arrival_date", kind: "message", T: () => Timestamp },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "transport_company", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "tracking_number", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateParcelData>): CreateParcelData {
-        const message = { ownerId: 0, transportCompany: "", trackingNumber: "", sender: "" };
+        const message = { ownerId: 0, name: "", transportCompany: "", trackingNumber: "", sender: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<CreateParcelData>(this, message, value);
@@ -611,8 +926,8 @@ class CreateParcelData$Type extends MessageType<CreateParcelData> {
                 case /* int32 owner_id */ 1:
                     message.ownerId = reader.int32();
                     break;
-                case /* google.protobuf.Timestamp arrival_date */ 2:
-                    message.arrivalDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.arrivalDate);
+                case /* string name */ 2:
+                    message.name = reader.string();
                     break;
                 case /* string transport_company */ 3:
                     message.transportCompany = reader.string();
@@ -638,9 +953,9 @@ class CreateParcelData$Type extends MessageType<CreateParcelData> {
         /* int32 owner_id = 1; */
         if (message.ownerId !== 0)
             writer.tag(1, WireType.Varint).int32(message.ownerId);
-        /* google.protobuf.Timestamp arrival_date = 2; */
-        if (message.arrivalDate)
-            Timestamp.internalBinaryWrite(message.arrivalDate, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* string name = 2; */
+        if (message.name !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.name);
         /* string transport_company = 3; */
         if (message.transportCompany !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.transportCompany);
@@ -727,14 +1042,16 @@ class UpdateParcelData$Type extends MessageType<UpdateParcelData> {
         super("pb.UpdateParcelData", [
             { no: 1, name: "owner_id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "arrival_date", kind: "message", T: () => Timestamp },
-            { no: 3, name: "transport_company", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "tracking_number", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "status", kind: "enum", T: () => ["pb.ParcelStatus", ParcelStatus] }
+            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "transport_company", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "tracking_number", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "sender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "status", kind: "enum", T: () => ["pb.ParcelStatus", ParcelStatus] },
+            { no: 8, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateParcelData>): UpdateParcelData {
-        const message = { ownerId: 0, transportCompany: "", trackingNumber: "", sender: "", status: 0 };
+        const message = { ownerId: 0, name: "", transportCompany: "", trackingNumber: "", sender: "", status: 0, description: "" };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<UpdateParcelData>(this, message, value);
@@ -751,17 +1068,23 @@ class UpdateParcelData$Type extends MessageType<UpdateParcelData> {
                 case /* google.protobuf.Timestamp arrival_date */ 2:
                     message.arrivalDate = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.arrivalDate);
                     break;
-                case /* string transport_company */ 3:
+                case /* string name */ 3:
+                    message.name = reader.string();
+                    break;
+                case /* string transport_company */ 4:
                     message.transportCompany = reader.string();
                     break;
-                case /* string tracking_number */ 4:
+                case /* string tracking_number */ 5:
                     message.trackingNumber = reader.string();
                     break;
-                case /* string sender */ 5:
+                case /* string sender */ 6:
                     message.sender = reader.string();
                     break;
-                case /* pb.ParcelStatus status */ 6:
+                case /* pb.ParcelStatus status */ 7:
                     message.status = reader.int32();
+                    break;
+                case /* string description */ 8:
+                    message.description = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -781,18 +1104,24 @@ class UpdateParcelData$Type extends MessageType<UpdateParcelData> {
         /* google.protobuf.Timestamp arrival_date = 2; */
         if (message.arrivalDate)
             Timestamp.internalBinaryWrite(message.arrivalDate, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
-        /* string transport_company = 3; */
+        /* string name = 3; */
+        if (message.name !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.name);
+        /* string transport_company = 4; */
         if (message.transportCompany !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.transportCompany);
-        /* string tracking_number = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.transportCompany);
+        /* string tracking_number = 5; */
         if (message.trackingNumber !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.trackingNumber);
-        /* string sender = 5; */
+            writer.tag(5, WireType.LengthDelimited).string(message.trackingNumber);
+        /* string sender = 6; */
         if (message.sender !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.sender);
-        /* pb.ParcelStatus status = 6; */
+            writer.tag(6, WireType.LengthDelimited).string(message.sender);
+        /* pb.ParcelStatus status = 7; */
         if (message.status !== 0)
-            writer.tag(6, WireType.Varint).int32(message.status);
+            writer.tag(7, WireType.Varint).int32(message.status);
+        /* string description = 8; */
+        if (message.description !== "")
+            writer.tag(8, WireType.LengthDelimited).string(message.description);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -862,7 +1191,8 @@ class StaffAcceptDeliveryRequest$Type extends MessageType<StaffAcceptDeliveryReq
     constructor() {
         super("pb.StaffAcceptDeliveryRequest", [
             { no: 1, name: "context", kind: "message", T: () => Context },
-            { no: 2, name: "id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+            { no: 2, name: "id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "data", kind: "message", T: () => StaffAcceptDeliveryData }
         ]);
     }
     create(value?: PartialMessage<StaffAcceptDeliveryRequest>): StaffAcceptDeliveryRequest {
@@ -883,6 +1213,9 @@ class StaffAcceptDeliveryRequest$Type extends MessageType<StaffAcceptDeliveryReq
                 case /* uint32 id */ 2:
                     message.id = reader.uint32();
                     break;
+                case /* pb.StaffAcceptDeliveryData data */ 3:
+                    message.data = StaffAcceptDeliveryData.internalBinaryRead(reader, reader.uint32(), options, message.data);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -901,6 +1234,9 @@ class StaffAcceptDeliveryRequest$Type extends MessageType<StaffAcceptDeliveryReq
         /* uint32 id = 2; */
         if (message.id !== 0)
             writer.tag(2, WireType.Varint).uint32(message.id);
+        /* pb.StaffAcceptDeliveryData data = 3; */
+        if (message.data)
+            StaffAcceptDeliveryData.internalBinaryWrite(message.data, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -911,6 +1247,53 @@ class StaffAcceptDeliveryRequest$Type extends MessageType<StaffAcceptDeliveryReq
  * @generated MessageType for protobuf message pb.StaffAcceptDeliveryRequest
  */
 export const StaffAcceptDeliveryRequest = new StaffAcceptDeliveryRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StaffAcceptDeliveryData$Type extends MessageType<StaffAcceptDeliveryData> {
+    constructor() {
+        super("pb.StaffAcceptDeliveryData", [
+            { no: 1, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<StaffAcceptDeliveryData>): StaffAcceptDeliveryData {
+        const message = { description: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StaffAcceptDeliveryData>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StaffAcceptDeliveryData): StaffAcceptDeliveryData {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string description */ 1:
+                    message.description = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StaffAcceptDeliveryData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string description = 1; */
+        if (message.description !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.description);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StaffAcceptDeliveryData
+ */
+export const StaffAcceptDeliveryData = new StaffAcceptDeliveryData$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class StudentClaimParcelRequest$Type extends MessageType<StudentClaimParcelRequest> {
     constructor() {
@@ -965,71 +1348,17 @@ class StudentClaimParcelRequest$Type extends MessageType<StudentClaimParcelReque
  * @generated MessageType for protobuf message pb.StudentClaimParcelRequest
  */
 export const StudentClaimParcelRequest = new StudentClaimParcelRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class StaffConfirmClaimParcelRequest$Type extends MessageType<StaffConfirmClaimParcelRequest> {
-    constructor() {
-        super("pb.StaffConfirmClaimParcelRequest", [
-            { no: 1, name: "context", kind: "message", T: () => Context },
-            { no: 2, name: "id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
-        ]);
-    }
-    create(value?: PartialMessage<StaffConfirmClaimParcelRequest>): StaffConfirmClaimParcelRequest {
-        const message = { id: 0 };
-        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
-        if (value !== undefined)
-            reflectionMergePartial<StaffConfirmClaimParcelRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StaffConfirmClaimParcelRequest): StaffConfirmClaimParcelRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* pb.Context context */ 1:
-                    message.context = Context.internalBinaryRead(reader, reader.uint32(), options, message.context);
-                    break;
-                case /* uint32 id */ 2:
-                    message.id = reader.uint32();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: StaffConfirmClaimParcelRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* pb.Context context = 1; */
-        if (message.context)
-            Context.internalBinaryWrite(message.context, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* uint32 id = 2; */
-        if (message.id !== 0)
-            writer.tag(2, WireType.Varint).uint32(message.id);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message pb.StaffConfirmClaimParcelRequest
- */
-export const StaffConfirmClaimParcelRequest = new StaffConfirmClaimParcelRequest$Type();
 /**
  * @generated ServiceType for protobuf service pb.ParcelService
  */
 export const ParcelService = new ServiceType("pb.ParcelService", [
     { name: "Hello", options: {}, I: HelloRequest, O: HelloResponse },
     { name: "GetParcels", options: {}, I: GetParcelsRequest, O: GetParcelsResponse },
+    { name: "StudentGetParcels", options: {}, I: StudentGetParcelsRequest, O: StudentGetParcelsResponse },
     { name: "GetParcel", options: {}, I: GetParcelRequest, O: GetParcelResponse },
     { name: "CreateParcel", options: {}, I: CreateParcelRequest, O: Empty },
     { name: "UpdateParcel", options: {}, I: UpdateParcelRequest, O: Empty },
     { name: "DeleteParcel", options: {}, I: DeleteParcelRequest, O: Empty },
     { name: "StaffAcceptDelivery", options: {}, I: StaffAcceptDeliveryRequest, O: Empty },
-    { name: "StudentClaimParcel", options: {}, I: StudentClaimParcelRequest, O: Empty },
-    { name: "StaffomfirmClaimParcel", options: {}, I: StaffConfirmClaimParcelRequest, O: Empty }
+    { name: "StudentClaimParcel", options: {}, I: StudentClaimParcelRequest, O: Empty }
 ]);
