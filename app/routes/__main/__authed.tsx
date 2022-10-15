@@ -1,6 +1,5 @@
 import type { Theme } from "@mui/joy";
-import { Divider } from "@mui/joy";
-import { Box, Container, styled } from "@mui/joy";
+import { Stack, Divider, Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
@@ -48,7 +47,7 @@ export default function AuthedLayout() {
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 
   return (
-    <div>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar>
         <Toolbar>
           <Link to="/">
@@ -59,33 +58,28 @@ export default function AuthedLayout() {
           <UserMenu user={user} />
         </Toolbar>
       </AppBar>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
+      <Stack direction="row" sx={{ paddingTop: 8, flex: 1 }}>
         <Box
           sx={{
             display: { xs: "none", sm: "flex" },
             minWidth: { xs: 0, md: 200 },
             flexDirection: "column",
-            marginTop: 9,
-            paddingLeft: 2,
+            padding: 2,
+            paddingRight: 0,
           }}
         >
           <Sidebar user={user} fixed />
         </Box>
         <Divider
           orientation="vertical"
-          sx={{
-            display: { xs: "none", sm: "flex" },
-            marginTop: 8,
-            marginLeft: 2,
-            marginRight: 2,
-          }}
+          sx={{ display: { xs: "none", sm: "flex" }, marginX: 2 }}
         />
-        <Container sx={{ paddingTop: 8 }}>
+        <Container>
           <Box sx={{ flexGrow: 1, marginTop: 2 }}>
             <Outlet />
           </Box>
         </Container>
-      </Box>
-    </div>
+      </Stack>
+    </Box>
   );
 }
