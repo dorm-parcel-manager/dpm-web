@@ -119,6 +119,24 @@ export interface UserInfo {
     type: UserType;
 }
 /**
+ * @generated from protobuf message pb.BatchGetUserInfoRequest
+ */
+export interface BatchGetUserInfoRequest {
+    /**
+     * @generated from protobuf field: repeated uint32 ids = 1;
+     */
+    ids: number[];
+}
+/**
+ * @generated from protobuf message pb.BatchGetUserInfoResponse
+ */
+export interface BatchGetUserInfoResponse {
+    /**
+     * @generated from protobuf field: repeated pb.UserInfo userInfos = 1;
+     */
+    userInfos: UserInfo[];
+}
+/**
  * @generated from protobuf message pb.GetUsersRequest
  */
 export interface GetUsersRequest {
@@ -514,6 +532,108 @@ class UserInfo$Type extends MessageType<UserInfo> {
  */
 export const UserInfo = new UserInfo$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class BatchGetUserInfoRequest$Type extends MessageType<BatchGetUserInfoRequest> {
+    constructor() {
+        super("pb.BatchGetUserInfoRequest", [
+            { no: 1, name: "ids", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 13 /*ScalarType.UINT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<BatchGetUserInfoRequest>): BatchGetUserInfoRequest {
+        const message = { ids: [] };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<BatchGetUserInfoRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BatchGetUserInfoRequest): BatchGetUserInfoRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated uint32 ids */ 1:
+                    if (wireType === WireType.LengthDelimited)
+                        for (let e = reader.int32() + reader.pos; reader.pos < e;)
+                            message.ids.push(reader.uint32());
+                    else
+                        message.ids.push(reader.uint32());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: BatchGetUserInfoRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated uint32 ids = 1; */
+        if (message.ids.length) {
+            writer.tag(1, WireType.LengthDelimited).fork();
+            for (let i = 0; i < message.ids.length; i++)
+                writer.uint32(message.ids[i]);
+            writer.join();
+        }
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.BatchGetUserInfoRequest
+ */
+export const BatchGetUserInfoRequest = new BatchGetUserInfoRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BatchGetUserInfoResponse$Type extends MessageType<BatchGetUserInfoResponse> {
+    constructor() {
+        super("pb.BatchGetUserInfoResponse", [
+            { no: 1, name: "userInfos", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UserInfo }
+        ]);
+    }
+    create(value?: PartialMessage<BatchGetUserInfoResponse>): BatchGetUserInfoResponse {
+        const message = { userInfos: [] };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<BatchGetUserInfoResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BatchGetUserInfoResponse): BatchGetUserInfoResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pb.UserInfo userInfos */ 1:
+                    message.userInfos.push(UserInfo.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: BatchGetUserInfoResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pb.UserInfo userInfos = 1; */
+        for (let i = 0; i < message.userInfos.length; i++)
+            UserInfo.internalBinaryWrite(message.userInfos[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.BatchGetUserInfoResponse
+ */
+export const BatchGetUserInfoResponse = new BatchGetUserInfoResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetUsersRequest$Type extends MessageType<GetUsersRequest> {
     constructor() {
         super("pb.GetUsersRequest", [
@@ -905,6 +1025,7 @@ export const UserService = new ServiceType("pb.UserService", [
     { name: "Hello", options: {}, I: HelloRequest, O: HelloResponse },
     { name: "GetUserForAuth", options: {}, I: GetUserForAuthRequest, O: User },
     { name: "GetUserInfo", options: {}, I: GetUserInfoRequest, O: UserInfo },
+    { name: "BatchGetUserInfo", options: {}, I: BatchGetUserInfoRequest, O: BatchGetUserInfoResponse },
     { name: "GetUsers", options: {}, I: GetUsersRequest, O: GetUsersResponse },
     { name: "GetUser", options: {}, I: GetUserRequest, O: GetUserResponse },
     { name: "UpdateUser", options: {}, I: UpdateUserRequest, O: Empty },

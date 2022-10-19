@@ -11,6 +11,8 @@ import type { GetUserResponse } from "./user-service";
 import type { GetUserRequest } from "./user-service";
 import type { GetUsersResponse } from "./user-service";
 import type { GetUsersRequest } from "./user-service";
+import type { BatchGetUserInfoResponse } from "./user-service";
+import type { BatchGetUserInfoRequest } from "./user-service";
 import type { UserInfo } from "./user-service";
 import type { GetUserInfoRequest } from "./user-service";
 import type { User } from "./user-service";
@@ -36,6 +38,10 @@ export interface IUserServiceClient {
      * @generated from protobuf rpc: GetUserInfo(pb.GetUserInfoRequest) returns (pb.UserInfo);
      */
     getUserInfo(input: GetUserInfoRequest, options?: RpcOptions): UnaryCall<GetUserInfoRequest, UserInfo>;
+    /**
+     * @generated from protobuf rpc: BatchGetUserInfo(pb.BatchGetUserInfoRequest) returns (pb.BatchGetUserInfoResponse);
+     */
+    batchGetUserInfo(input: BatchGetUserInfoRequest, options?: RpcOptions): UnaryCall<BatchGetUserInfoRequest, BatchGetUserInfoResponse>;
     /**
      * @generated from protobuf rpc: GetUsers(pb.GetUsersRequest) returns (pb.GetUsersResponse);
      */
@@ -84,31 +90,38 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
         return stackIntercept<GetUserInfoRequest, UserInfo>("unary", this._transport, method, opt, input);
     }
     /**
+     * @generated from protobuf rpc: BatchGetUserInfo(pb.BatchGetUserInfoRequest) returns (pb.BatchGetUserInfoResponse);
+     */
+    batchGetUserInfo(input: BatchGetUserInfoRequest, options?: RpcOptions): UnaryCall<BatchGetUserInfoRequest, BatchGetUserInfoResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<BatchGetUserInfoRequest, BatchGetUserInfoResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: GetUsers(pb.GetUsersRequest) returns (pb.GetUsersResponse);
      */
     getUsers(input: GetUsersRequest, options?: RpcOptions): UnaryCall<GetUsersRequest, GetUsersResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUsersRequest, GetUsersResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetUser(pb.GetUserRequest) returns (pb.GetUserResponse);
      */
     getUser(input: GetUserRequest, options?: RpcOptions): UnaryCall<GetUserRequest, GetUserResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUserRequest, GetUserResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: UpdateUser(pb.UpdateUserRequest) returns (pb.Empty);
      */
     updateUser(input: UpdateUserRequest, options?: RpcOptions): UnaryCall<UpdateUserRequest, Empty> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateUserRequest, Empty>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: DeleteUser(pb.DeleteUserRequest) returns (pb.Empty);
      */
     deleteUser(input: DeleteUserRequest, options?: RpcOptions): UnaryCall<DeleteUserRequest, Empty> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeleteUserRequest, Empty>("unary", this._transport, method, opt, input);
     }
 }
