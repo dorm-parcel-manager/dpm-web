@@ -1,19 +1,15 @@
-import { Box, Button, Typography, Link as JoyLink, Chip, TextField, Stack, Card } from "@mui/joy";
-import { MdCheck } from "react-icons/md";
+import { Box, Button, Typography, Stack, Card } from "@mui/joy";
 import { formatRelative } from "~/utils";
 import { Timestamp } from "~/proto/google/protobuf/timestamp";
 import { CopyButton } from "~/components/CopyButton";
 import { ParcelProgress } from "~/components/ParcelProgress";
-
-import type { LoaderArgs, LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { AiFillCaretLeft } from "react-icons/ai";
-import { FiSave } from "react-icons/fi";
 import { getGrpcContext } from "~/auth/utils";
 import { parcelServiceClient } from "~/client";
 import type { Parcel } from "~/proto/parcel-service";
-import { ParcelStatus } from "~/proto/parcel-service";
 
 type LoaderData = Parcel;
 
