@@ -43,7 +43,6 @@ export default function Parcels() {
 }
 
 function ParcelDetailView({ parcel }: { parcel: Parcel }) {
-    console.log(parcel)
     return (
         <Stack direction="column" spacing={2} sx={{ marginTop: 2 }}>
             <ParcelDetailCard parcel={parcel} />
