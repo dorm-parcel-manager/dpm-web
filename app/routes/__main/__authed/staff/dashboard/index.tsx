@@ -1,8 +1,14 @@
-import { ListDivider, TextField, Typography } from "@mui/joy";
+import {
+  ListDivider,
+  TextField,
+  Typography,
+  ListItem,
+  ListItemButton,
+} from "@mui/joy";
 import { Stack } from "@mui/system";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import React from "react";
 import { FiSearch } from "react-icons/fi";
 import { getGrpcContext } from "~/auth/utils";
@@ -21,6 +27,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function Index() {
+  const parcels = useLoaderData<LoaderData>();
   return (
     <Stack gap={2}>
       <Typography level="h4" component="h1">
@@ -31,21 +38,29 @@ export default function Index() {
         placeholder="Tracking number"
         startDecorator={<FiSearch />}
       />
-      <ParcelList />
+      <ParcelList parcels={parcels} />
     </Stack>
   );
 }
 
-function ParcelList() {
-  const parcels = useLoaderData<LoaderData>();
+function ParcelList({ parcels }: { parcels: Parcel[] }) {
   return (
     <Stack gap={1}>
       {parcels.map((parcel, index) => (
         <React.Fragment key={parcel.id}>
-          <Typography level="h5" component="h3">
-            {parcel.name} - {parcel.sender}
-          </Typography>
-          <span>{parcel.name}</span>
+          <ListItem>
+            <ListItemButton
+              component={Link}
+              to={`/staff/dashboard/${parcel.id}`}
+            >
+              <Stack>
+                <Typography level="h5" component="h3">
+                  {parcel.trackingNumber} - {parcel.transportCompany}
+                </Typography>
+                <Typography component="p">{parcel.sender}</Typography>
+              </Stack>
+            </ListItemButton>
+          </ListItem>
           {index !== parcels.length - 1 && <ListDivider />}
         </React.Fragment>
       ))}
