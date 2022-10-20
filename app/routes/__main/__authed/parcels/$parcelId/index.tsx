@@ -92,7 +92,7 @@ function ParcelDetailCard({ parcel }: { parcel: Parcel }){
                     textColor="text.primary"
                     sx={{ marginRight: 0.5 }}
                     >
-                    {parcel.description}
+                    Description : {" "}{parcel.description}
                 </Typography>
             }
         </Stack>
