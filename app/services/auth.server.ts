@@ -53,3 +53,13 @@ authenticator.use(
   }),
   "google-token"
 );
+
+authenticator.use(
+  new FormStrategy(async ({ form }) => {
+    const userId = Number(form.get("userId"));
+    const { response } = await userServiceClient.getUserInfo({ id: userId });
+    const { id, firstName, lastName, picture, type } = response;
+    return { id, firstName, lastName, picture, type };
+  }),
+  "mock-auth"
+);

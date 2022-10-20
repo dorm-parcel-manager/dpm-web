@@ -11,6 +11,14 @@ export async function getUser(request: Request) {
   return user;
 }
 
+export async function getUserOptional(request: Request) {
+  try {
+    return await getUser(request);
+  } catch (e) {
+    return null;
+  }
+}
+
 export async function getGrpcContext(request: Request): Promise<Context> {
   const user = await getUser(request);
   return {

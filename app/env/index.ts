@@ -5,3 +5,4 @@ export const CLIENT_PARCELSERVICEURL = process.env
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
 export const BASE_URL = process.env.BASE_URL as string;
+export const DEBUG_MODE_PASSWORD = process.env.DEBUG_MODE_PASSWORD as string;
