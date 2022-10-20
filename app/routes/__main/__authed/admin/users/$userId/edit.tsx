@@ -1,5 +1,6 @@
 import { Box, Button, Option, Select, Typography } from "@mui/joy";
-import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   useLoaderData,

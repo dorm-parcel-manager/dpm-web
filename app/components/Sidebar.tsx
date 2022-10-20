@@ -36,23 +36,29 @@ export function Sidebar(props: Props) {
           "--List-item-radius": "8px",
         }}
       >
-        <SidebarItem to="dashboard" icon={<MdDashboard />}>
-          Dashboard
-        </SidebarItem>
-        <SidebarItem to="parcels" icon={<FiPackage />}>
-          Parcels
-        </SidebarItem>
-        <SidebarItem to="notifications" icon={<MdNotifications />}>
-          Notifications
-        </SidebarItem>
+        {user.type == UserType.TYPE_STUDENT && (
+          <>
+            <SidebarItem to="parcels" icon={<FiPackage />}>
+              Parcels
+            </SidebarItem>
+            <SidebarItem to="notifications" icon={<MdNotifications />}>
+              Notifications
+            </SidebarItem>
+            <SidebarItem to="profile" icon={<MdPerson />}>
+              Profile
+            </SidebarItem>
+          </>
+        )}
+        {user.type == UserType.TYPE_STAFF && (
+          <SidebarItem to="staff/dashboard" icon={<MdDashboard />}>
+            Dashboard
+          </SidebarItem>
+        )}
         {user.type == UserType.TYPE_ADMIN && (
-          <SidebarItem to="users" icon={<MdPeople />}>
+          <SidebarItem to="admin/users" icon={<MdPeople />}>
             Users
           </SidebarItem>
         )}
-        <SidebarItem to="profile" icon={<MdPerson />}>
-          Profile
-        </SidebarItem>
       </List>
       <ModeToggle small={isSm} />
     </SidebarContext.Provider>
