@@ -85,8 +85,30 @@ function ParcelDetailCard({ parcel }: { parcel: Parcel }){
                 </Typography>
                 <CopyButton />
             </Box>
+            {
+                parcel.description &&
+                <Typography
+                    level="body2"
+                    textColor="text.primary"
+                    sx={{ marginRight: 0.5 }}
+                    >
+                    {parcel.description}
+                </Typography>
+            }
         </Stack>
         <Box sx={{marginTop : 1.5 }}>
+            {parcel.createdAt && 
+                <Typography
+                level="h6"
+                textColor="text.primary"
+                >
+                Registered : 
+                {" "+formatRelative(
+                    Timestamp.toDate(parcel.createdAt),
+                    new Date()
+                )}
+                </Typography>
+            }
             {parcel.arrivalDate && 
                 <Typography
                 level="h6"

@@ -31,15 +31,13 @@ export async function action({ request }: ActionArgs) {
         transportCompany: validate(transportCompany, "Transport Company"),
         sender: validate(sender, "Sender"),
     };
-
-    if (ownerId && name && trackingNumber && transportCompany && sender &&
-        name !=="" && trackingNumber !=="" && transportCompany !=="" && sender !=="") {
+    
+    if (Object.values(errors).some(Boolean)) return { errors };
+    if (ownerId && name && transportCompany && trackingNumber && sender){
         const data = { ownerId, name, transportCompany, trackingNumber, sender };
         await parcelServiceClient.createParcel({ context, data })
-        return redirect(`/parcels`);
     }
-
-    return {errors}
+    return redirect(`/parcels`);
 }
 
 export default function Parcels() {
