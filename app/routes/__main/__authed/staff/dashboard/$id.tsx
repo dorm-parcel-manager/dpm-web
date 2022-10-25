@@ -37,7 +37,7 @@ export async function action({ request, params }: ActionArgs) {
         id,
         data: { description: formData.get("description") as string },
       }).response;
-      return redirect("/staff/dashboard");
+      return redirect(`/staff/dashboard/${id}`);
     }
     default: {
       throw new Response("Method Not Allowed", {
