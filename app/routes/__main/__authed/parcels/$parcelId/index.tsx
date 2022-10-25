@@ -1,14 +1,16 @@
-import { Box, Typography, Stack, Card } from "@mui/joy";
+import { Box, Typography, Stack, Card, Button } from "@mui/joy";
 import { formatRelative } from "~/utils";
 import { Timestamp } from "~/proto/google/protobuf/timestamp";
 import { CopyButton } from "~/components/CopyButton";
 import { ParcelProgress } from "~/components/ParcelProgress";
-import type { LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { getGrpcContext } from "~/auth/utils";
 import { parcelServiceClient } from "~/client";
 import type { Parcel } from "~/proto/parcel-service";
+import { ParcelStatus } from "~/proto/parcel-service";
 import { BackButton } from "~/components/BackButton";
 
 type LoaderData = Parcel;
@@ -20,6 +22,23 @@ export async function loader({ request, params }: LoaderArgs) {
     .response;
   const parcel = response.parcel!;
   return json<LoaderData>(parcel);
+}
+
+export async function action({ request, params }: ActionArgs) {
+  switch (request.method) {
+    case "POST": {
+      const context = await getGrpcContext(request);
+      const id = parseInt(params.parcelId as string);
+      await parcelServiceClient.studentClaimParcel({ context, id }).response;
+      return redirect(`/parcels/${id}`);
+    }
+    default: {
+      throw new Response("Method Not Allowed", {
+        status: 405,
+        statusText: "Method Not Allowed",
+      });
+    }
+  }
 }
 
 export default function Parcels() {
@@ -38,8 +57,15 @@ export default function Parcels() {
 
 function ParcelDetailView({ parcel }: { parcel: Parcel }) {
   return (
-    <Stack direction="column" spacing={2} sx={{ marginTop: 2 }}>
+    <Stack direction="column" spacing={4} sx={{ marginTop: 2 }}>
       <ParcelDetailCard parcel={parcel} />
+      {parcel.status === ParcelStatus.PARCEL_ARRIVED && (
+        <Form method="post">
+          <Button color="success" fullWidth type="submit">
+            Accept Parcel
+          </Button>
+        </Form>
+      )}
     </Stack>
   );
 }
