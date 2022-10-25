@@ -102,7 +102,7 @@ export default function Notifications() {
                   <Typography level="h6">{notification.title}</Typography>
                   <Typography level="body2">
                     {formatRelative(
-                      new Date(notification.unixTime),
+                      new Date(notification.unixTime * 1000),
                       new Date()
                     )}
                   </Typography>
