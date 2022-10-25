@@ -122,22 +122,19 @@ function NewParcelView({ submit }: { submit: SubmitFunction }) {
           setSender(newValue.target.value);
         }}
       />
-      <Box textAlign="center">
-        <Button
-          color="info"
-          size="sm"
-          sx={{ mr: 2, width: 300 }}
-          onClick={() => {
-            submit(
-              { name, transportCompany, trackingNumber, sender },
-              { method: "post" }
-            );
-          }}
-        >
-          <FiSave style={{ marginRight: 2 }} />
-          <Typography>Save</Typography>
-        </Button>
-      </Box>
+      <Button
+        color="info"
+        fullWidth
+        onClick={() => {
+          submit(
+            { name, transportCompany, trackingNumber, sender },
+            { method: "post" }
+          );
+        }}
+        startDecorator={<FiSave />}
+      >
+        Save
+      </Button>
     </Stack>
   );
 }
