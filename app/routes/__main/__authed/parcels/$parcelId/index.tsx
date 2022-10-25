@@ -1,15 +1,15 @@
-import { Box, Button, Typography, Stack, Card } from "@mui/joy";
+import { Box, Typography, Stack, Card } from "@mui/joy";
 import { formatRelative } from "~/utils";
 import { Timestamp } from "~/proto/google/protobuf/timestamp";
 import { CopyButton } from "~/components/CopyButton";
 import { ParcelProgress } from "~/components/ParcelProgress";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import { AiFillCaretLeft } from "react-icons/ai";
+import { useLoaderData } from "@remix-run/react";
 import { getGrpcContext } from "~/auth/utils";
 import { parcelServiceClient } from "~/client";
 import type { Parcel } from "~/proto/parcel-service";
+import { BackButton } from "~/components/BackButton";
 
 type LoaderData = Parcel;
 
@@ -28,14 +28,7 @@ export default function Parcels() {
   return (
     <div>
       <Box sx={{ display: "flex", alignItems: "baseline" }}>
-        <Button
-          component={Link}
-          to="/parcels"
-          color="primary"
-          size="sm"
-          sx={{ mr: 2 }}
-          startDecorator={<AiFillCaretLeft />}
-        />
+        <BackButton sx={{ mr: 2 }} />
         <Typography level="h4">Parcel</Typography>
       </Box>
       <ParcelDetailView parcel={parcel} />
