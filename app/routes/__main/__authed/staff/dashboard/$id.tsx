@@ -1,11 +1,11 @@
-import { IconButton, Typography } from "@mui/joy";
+import { Typography } from "@mui/joy";
 import { Stack } from "@mui/system";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useNavigate } from "@remix-run/react";
-import { MdArrowBackIosNew } from "react-icons/md";
+import { useLoaderData } from "@remix-run/react";
 import { getGrpcContext } from "~/auth/utils";
 import { parcelServiceClient } from "~/client";
+import { BackButton } from "~/components/BackButton";
 import type { Parcel } from "~/proto/parcel-service";
 
 type LoaderData = Parcel;
@@ -24,17 +24,10 @@ export async function loader({ request, params }: LoaderArgs) {
 
 export default function Index() {
   const parcel = useLoaderData<LoaderData>();
-  const navigate = useNavigate();
   return (
     <Stack gap={2}>
       <Stack gap={2} direction="row">
-        <IconButton
-          onClick={() => navigate(-1)}
-          variant="outlined"
-          color="neutral"
-        >
-          <MdArrowBackIosNew />
-        </IconButton>
+        <BackButton />
         <Typography level="h3" component="h1">
           Parcel
         </Typography>

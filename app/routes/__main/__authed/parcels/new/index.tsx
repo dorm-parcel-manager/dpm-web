@@ -2,12 +2,13 @@ import { Box, Button, Typography, TextField, Stack } from "@mui/joy";
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import type { SubmitFunction } from "@remix-run/react";
-import { Link, useActionData, useSubmit } from "@remix-run/react";
+import { useActionData, useSubmit } from "@remix-run/react";
 import { useState } from "react";
-import { AiFillCaretLeft } from "react-icons/ai";
 import { FiSave } from "react-icons/fi";
+
 import { getGrpcContext } from "~/auth/utils";
 import { parcelServiceClient } from "~/client";
+import { BackButton } from "~/components/BackButton";
 
 function validate(data: string | undefined, name: string) {
   if (!data) {
@@ -48,14 +49,7 @@ export default function Parcels() {
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "baseline" }}>
-        <Button
-          component={Link}
-          to="/parcels"
-          color="primary"
-          size="sm"
-          sx={{ mr: 2 }}
-          startDecorator={<AiFillCaretLeft />}
-        />
+        <BackButton sx={{ mr: 2 }} />
         <Typography level="h4">New Parcel</Typography>
       </Box>
       <NewParcelView submit={submit} />
