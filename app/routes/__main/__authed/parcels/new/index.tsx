@@ -71,7 +71,7 @@ function NewParcelView({ submit }: { submit: SubmitFunction }) {
         placeholder={
           actionData?.errors?.name
             ? actionData?.errors?.name
-            : "iPhone 14 Pro Max"
+            : ""
         }
         color={actionData?.errors?.name ? "warning" : "neutral"}
         variant="outlined"
@@ -85,7 +85,7 @@ function NewParcelView({ submit }: { submit: SubmitFunction }) {
         placeholder={
           actionData?.errors?.trackingNumber
             ? actionData?.errors?.trackingNumber
-            : "AB01234567890"
+            : ""
         }
         color={actionData?.errors?.trackingNumber ? "warning" : "neutral"}
         variant="outlined"
@@ -99,7 +99,7 @@ function NewParcelView({ submit }: { submit: SubmitFunction }) {
         placeholder={
           actionData?.errors?.transportCompany
             ? actionData?.errors?.transportCompany
-            : "The Flash"
+            : ""
         }
         color={actionData?.errors?.transportCompany ? "warning" : "neutral"}
         variant="outlined"
@@ -113,7 +113,7 @@ function NewParcelView({ submit }: { submit: SubmitFunction }) {
         placeholder={
           actionData?.errors?.sender
             ? actionData?.errors?.sender
-            : "Anos Positos"
+            : ""
         }
         color={actionData?.errors?.sender ? "warning" : "neutral"}
         variant="outlined"
