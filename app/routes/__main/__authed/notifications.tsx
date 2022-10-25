@@ -18,34 +18,34 @@ interface Notification {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const user = await getUser(request)
-  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!
-  const response = await fetch(notificationServiceURL + '/notification', {
+  const user = await getUser(request);
+  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!;
+  const response = await fetch(notificationServiceURL + "/notification", {
     headers: {
       "User-Id": user.id.toString(),
     },
-  })
-  const notifications: Notification[] = await response.json()
+  });
+  const notifications: Notification[] = await response.json();
   return notifications.sort((a, b) => b.unixTime - a.unixTime);
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  const user = await getUser(request)
-  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!
+  const user = await getUser(request);
+  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!;
   const formData = await request.formData();
   const id = formData.get("id") as string;
   const link = formData.get("link") as string;
-  await fetch(notificationServiceURL + '/notification/' + id, {
+  await fetch(notificationServiceURL + "/notification/" + id, {
     method: "PATCH",
     headers: {
       "User-Id": user.id.toString(),
     },
     body: JSON.stringify({
       read: true,
-    })
-  })
-  return redirect(link)
-}
+    }),
+  });
+  return redirect(link);
+};
 
 export default function Notifications() {
   const notifications = useLoaderData<Notification[]>();
@@ -59,51 +59,59 @@ export default function Notifications() {
       method: "post",
       action: `/notifications`,
     });
-  }
+  };
 
   return (
     <div>
       <Typography level="h4">Notifications</Typography>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        rowGap: '0.5rem',
-        padding: '1rem 0',
-      }}>
-      <List>
-      {
-        notifications.map((notification) => (
-          <ListItem key={notification._id} >
-            <ListItemButton
-              onClick={() => {handleClick(notification)}}
-              sx={{
-                marginLeft: "-1.5rem",
-              }}>
-              <div>
-                {
-                  notification.read ? null :(
-                    <div style={{
-                      position: "absolute",
-                      height: "8px",
-                      width: "8px",
-                      marginLeft: "-0.7rem",
-                      marginTop: "0.6rem",
-                      backgroundColor: "#0BA5EC",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                    }} />
-                  )
-                }
-                
-                <Typography level="h6">{notification.title}</Typography>
-                <Typography level="body2">{formatRelative(new Date(notification.unixTime), new Date())}</Typography>
-              </div>
-            <Divider />
-           </ListItemButton>
-          </ListItem>
-        ))
-      }
-      </List>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "0.5rem",
+          padding: "1rem 0",
+        }}
+      >
+        <List>
+          {notifications.map((notification) => (
+            <ListItem key={notification._id}>
+              <ListItemButton
+                onClick={() => {
+                  handleClick(notification);
+                }}
+                sx={{
+                  marginLeft: "-1.5rem",
+                }}
+              >
+                <div>
+                  {notification.read ? null : (
+                    <div
+                      style={{
+                        position: "absolute",
+                        height: "8px",
+                        width: "8px",
+                        marginLeft: "-0.7rem",
+                        marginTop: "0.6rem",
+                        backgroundColor: "#0BA5EC",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                      }}
+                    />
+                  )}
+
+                  <Typography level="h6">{notification.title}</Typography>
+                  <Typography level="body2">
+                    {formatRelative(
+                      new Date(notification.unixTime),
+                      new Date()
+                    )}
+                  </Typography>
+                </div>
+                <Divider />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </div>
     </div>
   );
