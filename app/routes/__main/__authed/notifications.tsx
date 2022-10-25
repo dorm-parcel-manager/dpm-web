@@ -2,7 +2,7 @@ import { Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import { redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 
-import { formatRelative } from "date-fns";
+import { formatRelative } from '~/utils'
 import { getUser } from "~/auth/utils";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
