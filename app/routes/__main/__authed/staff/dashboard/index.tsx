@@ -19,7 +19,7 @@ type LoaderData = Parcel[];
 
 export async function loader({ request }: LoaderArgs) {
   const context = await getGrpcContext(request);
-  const { parcels } = await parcelServiceClient.getParcels({
+  const { parcels } = await parcelServiceClient.staffGetParcels({
     context,
     data: {},
   }).response;
