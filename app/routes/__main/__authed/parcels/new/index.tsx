@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Stack, FormLabel, Input } from "@mui/joy";
+import { Box, Button, Typography, Stack, FormLabel, Input, FormHelperText } from "@mui/joy";
 import { FormControl } from "@mui/material";
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
@@ -28,7 +28,7 @@ export async function action({ request }: ActionArgs) {
   const transportCompany = form.get("transportCompany")?.toString();
   const sender = form.get("sender")?.toString();
 
-  const errors = {
+  let errors = {
     name: validate(name, "Parcel name"),
     trackingNumber: validate(trackingNumber, "Tracking Number"),
     transportCompany: validate(transportCompany, "Transport Company"),
@@ -38,9 +38,15 @@ export async function action({ request }: ActionArgs) {
   if (Object.values(errors).some(Boolean)) return { errors };
   if (ownerId && name && transportCompany && trackingNumber && sender) {
     const data = { ownerId, name, transportCompany, trackingNumber, sender };
-    await parcelServiceClient.createParcel({ context, data });
+    try{
+      await parcelServiceClient.createParcel({ context, data });
+      return redirect(`/parcels`);
+    }
+    catch(err){
+      errors.trackingNumber = "This tracking number is already in our system"
+      return { errors };
+    }
   }
-  return redirect(`/parcels`);
 }
 
 export default function Parcels() {
@@ -66,33 +72,33 @@ function NewParcelView() {
             <FormLabel>Name</FormLabel>
             <Input
               name="name"
-              placeholder={actionData?.errors?.name? actionData?.errors?.name : ""}
               color={actionData?.errors?.name ? "warning" : "neutral"}
             />
+            <FormHelperText>{actionData?.errors?.name? actionData?.errors?.name : ""}</FormHelperText>
           </FormControl>
           <FormControl>
             <FormLabel>Tracking Number</FormLabel>
             <Input
               name="trackingNumber"
-              placeholder={actionData?.errors?.trackingNumber? actionData?.errors?.trackingNumber : ""}
               color={actionData?.errors?.trackingNumber ? "warning" : "neutral"}
             />
+            <FormHelperText>{actionData?.errors?.trackingNumber? actionData?.errors?.trackingNumber : ""}</FormHelperText>
           </FormControl>
           <FormControl>
             <FormLabel>Transport Company</FormLabel>
             <Input
               name="transportCompany"
-              placeholder={actionData?.errors?.transportCompany? actionData?.errors?.transportCompany : ""}
               color={actionData?.errors?.transportCompany ? "warning" : "neutral"}
             />
+            <FormHelperText>{actionData?.errors?.transportCompany? actionData?.errors?.transportCompany : ""}</FormHelperText>
           </FormControl>
           <FormControl>
             <FormLabel>Sender</FormLabel>
             <Input
               name="sender"
-              placeholder={actionData?.errors?.sender ? actionData?.errors?.sender : ""}
               color={actionData?.errors?.sender ? "warning" : "neutral"}
             />
+            <FormHelperText>{actionData?.errors?.sender ? actionData?.errors?.sender : ""}</FormHelperText>
           </FormControl>
           <Button
             color="info"
