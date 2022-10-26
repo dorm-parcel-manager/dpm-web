@@ -99,6 +99,10 @@ export interface GetParcelsData {
      * @generated from protobuf field: optional string sender = 3;
      */
     sender?: string;
+    /**
+     * @generated from protobuf field: optional pb.ParcelStatus status = 4;
+     */
+    status?: ParcelStatus;
 }
 /**
  * @generated from protobuf message pb.GetParcelsResponse
@@ -122,6 +126,45 @@ export interface StudentGetParcelsRequest {
  * @generated from protobuf message pb.StudentGetParcelsResponse
  */
 export interface StudentGetParcelsResponse {
+    /**
+     * @generated from protobuf field: repeated pb.Parcel parcels = 1;
+     */
+    parcels: Parcel[];
+}
+/**
+ * @generated from protobuf message pb.StaffGetParcelsRequest
+ */
+export interface StaffGetParcelsRequest {
+    /**
+     * @generated from protobuf field: pb.Context context = 1;
+     */
+    context?: Context;
+    /**
+     * @generated from protobuf field: pb.StaffGetParcelsData data = 2;
+     */
+    data?: StaffGetParcelsData;
+}
+/**
+ * @generated from protobuf message pb.StaffGetParcelsData
+ */
+export interface StaffGetParcelsData {
+    /**
+     * @generated from protobuf field: optional string transport_company = 1;
+     */
+    transportCompany?: string;
+    /**
+     * @generated from protobuf field: optional string tracking_number = 2;
+     */
+    trackingNumber?: string;
+    /**
+     * @generated from protobuf field: optional string sender = 3;
+     */
+    sender?: string;
+}
+/**
+ * @generated from protobuf message pb.StaffGetParcelsResponse
+ */
+export interface StaffGetParcelsResponse {
     /**
      * @generated from protobuf field: repeated pb.Parcel parcels = 1;
      */
@@ -498,7 +541,8 @@ class GetParcelsData$Type extends MessageType<GetParcelsData> {
         super("pb.GetParcelsData", [
             { no: 1, name: "transport_company", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "tracking_number", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "sender", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "sender", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "status", kind: "enum", opt: true, T: () => ["pb.ParcelStatus", ParcelStatus] }
         ]);
     }
     create(value?: PartialMessage<GetParcelsData>): GetParcelsData {
@@ -522,6 +566,9 @@ class GetParcelsData$Type extends MessageType<GetParcelsData> {
                 case /* optional string sender */ 3:
                     message.sender = reader.string();
                     break;
+                case /* optional pb.ParcelStatus status */ 4:
+                    message.status = reader.int32();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -543,6 +590,9 @@ class GetParcelsData$Type extends MessageType<GetParcelsData> {
         /* optional string sender = 3; */
         if (message.sender !== undefined)
             writer.tag(3, WireType.LengthDelimited).string(message.sender);
+        /* optional pb.ParcelStatus status = 4; */
+        if (message.status !== undefined)
+            writer.tag(4, WireType.Varint).int32(message.status);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -694,6 +744,168 @@ class StudentGetParcelsResponse$Type extends MessageType<StudentGetParcelsRespon
  * @generated MessageType for protobuf message pb.StudentGetParcelsResponse
  */
 export const StudentGetParcelsResponse = new StudentGetParcelsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StaffGetParcelsRequest$Type extends MessageType<StaffGetParcelsRequest> {
+    constructor() {
+        super("pb.StaffGetParcelsRequest", [
+            { no: 1, name: "context", kind: "message", T: () => Context },
+            { no: 2, name: "data", kind: "message", T: () => StaffGetParcelsData }
+        ]);
+    }
+    create(value?: PartialMessage<StaffGetParcelsRequest>): StaffGetParcelsRequest {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StaffGetParcelsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StaffGetParcelsRequest): StaffGetParcelsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pb.Context context */ 1:
+                    message.context = Context.internalBinaryRead(reader, reader.uint32(), options, message.context);
+                    break;
+                case /* pb.StaffGetParcelsData data */ 2:
+                    message.data = StaffGetParcelsData.internalBinaryRead(reader, reader.uint32(), options, message.data);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StaffGetParcelsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pb.Context context = 1; */
+        if (message.context)
+            Context.internalBinaryWrite(message.context, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* pb.StaffGetParcelsData data = 2; */
+        if (message.data)
+            StaffGetParcelsData.internalBinaryWrite(message.data, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StaffGetParcelsRequest
+ */
+export const StaffGetParcelsRequest = new StaffGetParcelsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StaffGetParcelsData$Type extends MessageType<StaffGetParcelsData> {
+    constructor() {
+        super("pb.StaffGetParcelsData", [
+            { no: 1, name: "transport_company", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "tracking_number", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "sender", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<StaffGetParcelsData>): StaffGetParcelsData {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StaffGetParcelsData>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StaffGetParcelsData): StaffGetParcelsData {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string transport_company */ 1:
+                    message.transportCompany = reader.string();
+                    break;
+                case /* optional string tracking_number */ 2:
+                    message.trackingNumber = reader.string();
+                    break;
+                case /* optional string sender */ 3:
+                    message.sender = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StaffGetParcelsData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string transport_company = 1; */
+        if (message.transportCompany !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.transportCompany);
+        /* optional string tracking_number = 2; */
+        if (message.trackingNumber !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.trackingNumber);
+        /* optional string sender = 3; */
+        if (message.sender !== undefined)
+            writer.tag(3, WireType.LengthDelimited).string(message.sender);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StaffGetParcelsData
+ */
+export const StaffGetParcelsData = new StaffGetParcelsData$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StaffGetParcelsResponse$Type extends MessageType<StaffGetParcelsResponse> {
+    constructor() {
+        super("pb.StaffGetParcelsResponse", [
+            { no: 1, name: "parcels", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Parcel }
+        ]);
+    }
+    create(value?: PartialMessage<StaffGetParcelsResponse>): StaffGetParcelsResponse {
+        const message = { parcels: [] };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<StaffGetParcelsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: StaffGetParcelsResponse): StaffGetParcelsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pb.Parcel parcels */ 1:
+                    message.parcels.push(Parcel.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: StaffGetParcelsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pb.Parcel parcels = 1; */
+        for (let i = 0; i < message.parcels.length; i++)
+            Parcel.internalBinaryWrite(message.parcels[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.StaffGetParcelsResponse
+ */
+export const StaffGetParcelsResponse = new StaffGetParcelsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetParcelRequest$Type extends MessageType<GetParcelRequest> {
     constructor() {
@@ -1311,6 +1523,7 @@ export const ParcelService = new ServiceType("pb.ParcelService", [
     { name: "Hello", options: {}, I: HelloRequest, O: HelloResponse },
     { name: "GetParcels", options: {}, I: GetParcelsRequest, O: GetParcelsResponse },
     { name: "StudentGetParcels", options: {}, I: StudentGetParcelsRequest, O: StudentGetParcelsResponse },
+    { name: "StaffGetParcels", options: {}, I: StaffGetParcelsRequest, O: StaffGetParcelsResponse },
     { name: "GetParcel", options: {}, I: GetParcelRequest, O: GetParcelResponse },
     { name: "CreateParcel", options: {}, I: CreateParcelRequest, O: Empty },
     { name: "UpdateParcel", options: {}, I: UpdateParcelRequest, O: Empty },
