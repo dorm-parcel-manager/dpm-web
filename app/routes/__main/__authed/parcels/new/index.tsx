@@ -1,9 +1,9 @@
-import { Box, Button, Typography, TextField, Stack } from "@mui/joy";
+import { Box, Button, Typography, Stack, FormLabel, Input, FormHelperText } from "@mui/joy";
+import { FormControl } from "@mui/material";
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import type { SubmitFunction } from "@remix-run/react";
-import { useActionData, useSubmit } from "@remix-run/react";
-import { useState } from "react";
+import { Form } from "@remix-run/react";
+import { useActionData } from "@remix-run/react";
 import { FiSave } from "react-icons/fi";
 
 import { getGrpcContext } from "~/auth/utils";
@@ -38,13 +38,18 @@ export async function action({ request }: ActionArgs) {
   if (Object.values(errors).some(Boolean)) return { errors };
   if (ownerId && name && transportCompany && trackingNumber && sender) {
     const data = { ownerId, name, transportCompany, trackingNumber, sender };
-    await parcelServiceClient.createParcel({ context, data });
+    try{
+      await parcelServiceClient.createParcel({ context, data });
+      return redirect(`/parcels`);
+    }
+    catch(err){
+      errors.trackingNumber = "This tracking number is already in our system"
+      return { errors };
+    }
   }
-  return redirect(`/parcels`);
 }
 
 export default function Parcels() {
-  const submit = useSubmit();
 
   return (
     <>
@@ -52,89 +57,58 @@ export default function Parcels() {
         <BackButton sx={{ mr: 2 }} />
         <Typography level="h4">New Parcel</Typography>
       </Box>
-      <NewParcelView submit={submit} />
+      <NewParcelView />
     </>
   );
 }
 
-function NewParcelView({ submit }: { submit: SubmitFunction }) {
-  const [name, setName] = useState<string>("");
-  const [trackingNumber, setTrackingNumber] = useState<string>("");
-  const [transportCompany, setTransportCompany] = useState<string>("");
-  const [sender, setSender] = useState<string>("");
+function NewParcelView() {
   const actionData = useActionData();
 
-  return (
-    <Stack direction="column" spacing={3} sx={{ marginTop: 2 }}>
-      <TextField
-        label="Parcel Name"
-        placeholder={
-          actionData?.errors?.name
-            ? actionData?.errors?.name
-            : ""
-        }
-        color={actionData?.errors?.name ? "warning" : "neutral"}
-        variant="outlined"
-        value={name}
-        onChange={(newValue) => {
-          setName(newValue.target.value);
-        }}
-      />
-      <TextField
-        label="Tracking Number"
-        placeholder={
-          actionData?.errors?.trackingNumber
-            ? actionData?.errors?.trackingNumber
-            : ""
-        }
-        color={actionData?.errors?.trackingNumber ? "warning" : "neutral"}
-        variant="outlined"
-        value={trackingNumber}
-        onChange={(newValue) => {
-          setTrackingNumber(newValue.target.value);
-        }}
-      />
-      <TextField
-        label="Transport Company"
-        placeholder={
-          actionData?.errors?.transportCompany
-            ? actionData?.errors?.transportCompany
-            : ""
-        }
-        color={actionData?.errors?.transportCompany ? "warning" : "neutral"}
-        variant="outlined"
-        value={transportCompany}
-        onChange={(newValue) => {
-          setTransportCompany(newValue.target.value);
-        }}
-      />
-      <TextField
-        label="Sender"
-        placeholder={
-          actionData?.errors?.sender
-            ? actionData?.errors?.sender
-            : ""
-        }
-        color={actionData?.errors?.sender ? "warning" : "neutral"}
-        variant="outlined"
-        value={sender}
-        onChange={(newValue) => {
-          setSender(newValue.target.value);
-        }}
-      />
-      <Button
-        color="info"
-        fullWidth
-        onClick={() => {
-          submit(
-            { name, transportCompany, trackingNumber, sender },
-            { method: "post" }
-          );
-        }}
-        startDecorator={<FiSave />}
-      >
-        Save
-      </Button>
-    </Stack>
+  return(
+    <Form method="post">
+        <Stack direction="column" spacing={3} sx={{ marginTop: 2 }}>
+          <FormControl>
+            <FormLabel>Name</FormLabel>
+            <Input
+              name="name"
+              color={actionData?.errors?.name ? "warning" : "neutral"}
+            />
+            <FormHelperText>{actionData?.errors?.name? actionData?.errors?.name : ""}</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Tracking Number</FormLabel>
+            <Input
+              name="trackingNumber"
+              color={actionData?.errors?.trackingNumber ? "warning" : "neutral"}
+            />
+            <FormHelperText>{actionData?.errors?.trackingNumber? actionData?.errors?.trackingNumber : ""}</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Transport Company</FormLabel>
+            <Input
+              name="transportCompany"
+              color={actionData?.errors?.transportCompany ? "warning" : "neutral"}
+            />
+            <FormHelperText>{actionData?.errors?.transportCompany? actionData?.errors?.transportCompany : ""}</FormHelperText>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Sender</FormLabel>
+            <Input
+              name="sender"
+              color={actionData?.errors?.sender ? "warning" : "neutral"}
+            />
+            <FormHelperText>{actionData?.errors?.sender ? actionData?.errors?.sender : ""}</FormHelperText>
+          </FormControl>
+          <Button
+            color="info"
+            fullWidth
+            type="submit"
+            startDecorator={<FiSave />}
+          >
+            Save
+          </Button>
+        </Stack>
+      </Form>
   );
 }
