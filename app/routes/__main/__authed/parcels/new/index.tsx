@@ -28,7 +28,7 @@ export async function action({ request }: ActionArgs) {
   const transportCompany = form.get("transportCompany")?.toString();
   const sender = form.get("sender")?.toString();
 
-  let errors = {
+  const errors = {
     name: validate(name, "Parcel name"),
     trackingNumber: validate(trackingNumber, "Tracking Number"),
     transportCompany: validate(transportCompany, "Transport Company"),
