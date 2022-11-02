@@ -6,13 +6,14 @@ import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { getGrpcContext } from "~/auth/utils";
-import { parcelServiceClient } from "~/client";
+import { parcelServiceClient, userServiceClient } from "~/client";
 import { BackButton } from "~/components/BackButton";
 import type { Parcel } from "~/proto/parcel-service";
 import { ParcelStatus } from "~/proto/parcel-service";
+import type { UserInfo } from "~/proto/user-service";
 import { getParcelStatus } from "~/utils/parcels";
 
-type LoaderData = Parcel;
+type LoaderData = Parcel & { owner: UserInfo };
 
 export async function loader({ request, params }: LoaderArgs) {
   const context = await getGrpcContext(request);
@@ -23,7 +24,13 @@ export async function loader({ request, params }: LoaderArgs) {
   if (!parcel) {
     return { status: 404 };
   }
-  return json<LoaderData>(parcel);
+  const user = await userServiceClient.getUserInfo({
+    id: parcel.ownerId,
+  }).response;
+  if (!user) {
+    return { status: 404 };
+  }
+  return json<LoaderData>({ ...parcel, owner: user });
 }
 
 export async function action({ request, params }: ActionArgs) {
@@ -64,7 +71,9 @@ export default function Index() {
       <Stack gap={1}>
         <Stack gap={0.75}>
           <Typography fontSize="small">Owner</Typography>
-          <Typography fontSize="large">{parcel.ownerId}</Typography>
+          <Typography fontSize="large">
+            {parcel.owner.firstName} {parcel.owner.lastName}
+          </Typography>
         </Stack>
         <Stack gap={0.75}>
           <Typography fontSize="small">Sender</Typography>
