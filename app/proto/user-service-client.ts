@@ -5,6 +5,7 @@ import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { UserService } from "./user-service";
 import type { DeleteUserRequest } from "./user-service";
+import type { UpdateUserInfoRequest } from "./user-service";
 import type { Empty } from "./common";
 import type { UpdateUserRequest } from "./user-service";
 import type { GetUserResponse } from "./user-service";
@@ -54,6 +55,10 @@ export interface IUserServiceClient {
      * @generated from protobuf rpc: UpdateUser(pb.UpdateUserRequest) returns (pb.Empty);
      */
     updateUser(input: UpdateUserRequest, options?: RpcOptions): UnaryCall<UpdateUserRequest, Empty>;
+    /**
+     * @generated from protobuf rpc: UpdateUserInfo(pb.UpdateUserInfoRequest) returns (pb.Empty);
+     */
+    updateUserInfo(input: UpdateUserInfoRequest, options?: RpcOptions): UnaryCall<UpdateUserInfoRequest, Empty>;
     /**
      * @generated from protobuf rpc: DeleteUser(pb.DeleteUserRequest) returns (pb.Empty);
      */
@@ -118,10 +123,17 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
         return stackIntercept<UpdateUserRequest, Empty>("unary", this._transport, method, opt, input);
     }
     /**
+     * @generated from protobuf rpc: UpdateUserInfo(pb.UpdateUserInfoRequest) returns (pb.Empty);
+     */
+    updateUserInfo(input: UpdateUserInfoRequest, options?: RpcOptions): UnaryCall<UpdateUserInfoRequest, Empty> {
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        return stackIntercept<UpdateUserInfoRequest, Empty>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: DeleteUser(pb.DeleteUserRequest) returns (pb.Empty);
      */
     deleteUser(input: DeleteUserRequest, options?: RpcOptions): UnaryCall<DeleteUserRequest, Empty> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeleteUserRequest, Empty>("unary", this._transport, method, opt, input);
     }
 }

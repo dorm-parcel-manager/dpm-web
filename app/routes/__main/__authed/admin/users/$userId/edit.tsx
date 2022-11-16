@@ -13,16 +13,20 @@ import { Controller, useForm } from "react-hook-form";
 import { MdClose, MdSave } from "react-icons/md";
 import { getGrpcContext } from "~/auth/utils";
 import { userServiceClient } from "~/client";
-import { UserType } from "~/proto/common";
 import type { User } from "~/proto/user-service";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { objectFromFormData, objectToFormData } from "~/utils";
+import {
+  mapUserTypeFromSchema,
+  mapUserTypeToSchema,
+  userTypeSchema,
+} from "~/utils/utils";
+import { z } from "zod";
 
 type LoaderData = User;
 
 const schema = z.object({
-  type: z.enum(["student", "staff", "admin"]),
+  type: userTypeSchema,
 });
 
 type Schema = z.infer<typeof schema>;
@@ -120,26 +124,4 @@ export default function EditUser() {
       </form>
     </div>
   );
-}
-
-function mapUserTypeToSchema(type: UserType): Schema["type"] {
-  switch (type) {
-    case UserType.TYPE_STUDENT:
-      return "student";
-    case UserType.TYPE_STAFF:
-      return "staff";
-    case UserType.TYPE_ADMIN:
-      return "admin";
-  }
-}
-
-function mapUserTypeFromSchema(type: Schema["type"]): UserType {
-  switch (type) {
-    case "student":
-      return UserType.TYPE_STUDENT;
-    case "staff":
-      return UserType.TYPE_STAFF;
-    case "admin":
-      return UserType.TYPE_ADMIN;
-  }
 }
