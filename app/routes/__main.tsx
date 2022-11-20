@@ -7,9 +7,15 @@ import { Box, Button, Container, Stack, Typography } from "@mui/joy";
 import { MdArrowBackIos, MdHome } from "react-icons/md";
 import notFoundLogo from "~/assets/images/not-found-logo.svg";
 import errorLogo from "~/assets/images/error-logo.svg";
+import { Toaster } from "react-hot-toast";
 
 export default function Main() {
-  return <Outlet />;
+  return (
+    <>
+      <Toaster />
+      <Outlet />
+    </>
+  );
 }
 
 const defaultError: ThrownResponse = {

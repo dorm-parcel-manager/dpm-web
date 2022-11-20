@@ -11,6 +11,8 @@ import { getGrpcContext } from "~/auth/utils";
 import { userServiceClient } from "~/client";
 import { BackButton } from "~/components/BackButton";
 import type { UserInfo } from "~/proto/user-service";
+import { commitSession, getSession } from "~/services/session.server";
+import type { ToastData } from "~/types";
 import { objectFromFormData } from "~/utils";
 
 type LoaderData = UserInfo;
@@ -38,7 +40,19 @@ export async function action({ request }: ActionArgs) {
         context,
         data,
       });
-      return redirect("/parcels");
+      const session = await getSession(request.headers.get("Cookie"));
+      session.flash(
+        "toastData",
+        JSON.stringify({
+          type: "success",
+          message: "Profile updated successfully",
+        } as ToastData)
+      );
+      return redirect("/profile", {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      });
     }
     default: {
       throw new Response("Method Not Allowed", {
