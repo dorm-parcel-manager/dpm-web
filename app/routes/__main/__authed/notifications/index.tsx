@@ -1,4 +1,4 @@
-import { Button, Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
+import { Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import { redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 
@@ -26,11 +26,8 @@ export const loader: LoaderFunction = async ({ request }) => {
     },
   });
   const notifications: Notification[] = await response.json();
-  const vapidResponse = await fetch(notificationServiceURL + "/vapidPublicKey");
-  const vapidPublicKey = await vapidResponse.text();
   return {
     notifications: notifications.sort((a, b) => b.unixTime - a.unixTime),
-    vapidPublicKey,
   }
 };
 
@@ -53,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Notifications() {
-  const { notifications, vapidPublicKey } = useLoaderData();
+  const { notifications } = useLoaderData();
   const submit = useSubmit();
 
   const handleClick = (notification: Notification) => {
@@ -64,19 +61,6 @@ export default function Notifications() {
       method: "post",
     });
   };
-
-  const testNotification = async() => {
-    const serviceWorkerRegistration = await navigator.serviceWorker.ready
-    const option = {
-      userVisibleOnly: true,
-      applicationServerKey: vapidPublicKey,
-    }
-    const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(option)
-    submit({subscription: JSON.stringify(pushSubscription)}, {
-      method: "post",
-      action: "/notifications/test",
-    })
-  }
 
   return (
     <div>
@@ -89,7 +73,6 @@ export default function Notifications() {
           padding: "1rem 0",
         }}
       >
-        <Button onClick={() => {testNotification()}} >Test Notification</Button>
         <List>
           {notifications.map((notification: any) => (
             <ListItem key={notification._id}>
