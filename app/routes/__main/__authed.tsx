@@ -11,12 +11,18 @@ import { UserMenu } from "~/components/UserMenu";
 import { MobileMenu } from "~/components/MobileMenu";
 import { Sidebar } from "~/components/Sidebar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useEffect } from "react";
 
-type LoaderData = UserInfo;
+type LoaderData = {
+  user: UserInfo
+  vapidPublicKey: string
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
-  return json<LoaderData>(user);
+  const vapidResponse = await fetch(process.env.CLIENT_NOTIFICATIONSERVICEURL! + "/vapidPublicKey");
+  const vapidPublicKey = await vapidResponse.text();
+  return json<LoaderData>({user, vapidPublicKey});
 };
 
 const AppBar = styled("header")(({ theme }) => ({
@@ -43,7 +49,27 @@ const Toolbar = styled("div")({
 });
 
 export default function AuthedLayout() {
-  const user = useLoaderData<LoaderData>();
+  const { user, vapidPublicKey } = useLoaderData<LoaderData>();
+
+  useEffect(() => {
+    async function notificationSubscribe() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+      const result = await Notification.requestPermission()
+      if (result !== "granted") {
+        return;
+      }
+      const serviceWorkerRegistration = await navigator.serviceWorker.ready
+      const option = {
+        userVisibleOnly: true,
+        applicationServerKey: vapidPublicKey,
+      }
+      await serviceWorkerRegistration.pushManager.subscribe(option)
+    }
+    notificationSubscribe();
+  }, [vapidPublicKey, user])
+
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 
   return (
