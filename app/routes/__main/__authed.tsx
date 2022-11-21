@@ -1,8 +1,8 @@
 import type { Theme } from "@mui/joy";
 import { Stack, Divider, Box, Container, styled } from "@mui/joy";
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useSubmit } from "@remix-run/react";
 import { getUser } from "~/auth/utils";
 import type { UserInfo } from "~/proto/user-service";
 
@@ -50,6 +50,7 @@ const Toolbar = styled("div")({
 
 export default function AuthedLayout() {
   const { user, vapidPublicKey } = useLoaderData<LoaderData>();
+  const submit = useSubmit();
 
   useEffect(() => {
     async function notificationSubscribe() {
@@ -65,10 +66,22 @@ export default function AuthedLayout() {
         userVisibleOnly: true,
         applicationServerKey: vapidPublicKey,
       }
-      await serviceWorkerRegistration.pushManager.subscribe(option)
+      const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(option)
+      const savedSubscription = window.localStorage.getItem("SUBSCRIPTION")
+      if (savedSubscription === JSON.stringify(pushSubscription)) {
+        return;
+      }
+      window.localStorage.setItem("SUBSCRIPTION", JSON.stringify(pushSubscription))
+      submit({
+        subscription: JSON.stringify(pushSubscription),
+        redirectTo: window.location.pathname
+      }, {
+        method: "post",
+        action: `/notifications/subscribe`,
+      })
     }
     notificationSubscribe();
-  }, [vapidPublicKey, user])
+  }, [vapidPublicKey, user, submit])
 
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 

@@ -62,7 +62,6 @@ export default function Notifications() {
     data.append("link", notification.link);
     submit(data, {
       method: "post",
-      action: `/notifications`,
     });
   };
 
