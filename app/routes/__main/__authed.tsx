@@ -1,6 +1,6 @@
 import type { Theme } from "@mui/joy";
 import { Stack, Divider, Box, Container, styled } from "@mui/joy";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useSubmit } from "@remix-run/react";
 import { getUser } from "~/auth/utils";
