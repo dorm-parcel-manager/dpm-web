@@ -2,7 +2,7 @@ import type { Theme } from "@mui/joy";
 import { Stack, Divider, Box, Container, styled } from "@mui/joy";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useSubmit } from "@remix-run/react";
 import { getUser } from "~/auth/utils";
 import type { UserInfo } from "~/proto/user-service";
 
@@ -11,6 +11,7 @@ import { UserMenu } from "~/components/UserMenu";
 import { MobileMenu } from "~/components/MobileMenu";
 import { Sidebar } from "~/components/Sidebar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+
 import type { ToastData } from "~/types";
 import { commitSession, getSession } from "~/services/session.server";
 import { useEffect } from "react";
@@ -18,15 +19,18 @@ import toast from "react-hot-toast";
 
 type LoaderData = {
   user: UserInfo;
+  vapidPublicKey: string;
   toastData: ToastData | null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
+  const vapidResponse = await fetch(process.env.CLIENT_NOTIFICATIONSERVICEURL! + "/vapidPublicKey");
+  const vapidPublicKey = await vapidResponse.text();
   const session = await getSession(request.headers.get("Cookie"));
   const toastData = JSON.parse(session.get("toastData") || "null") as ToastData;
   return json<LoaderData>(
-    { user, toastData },
+    { user, toastData, vapidPublicKey },
     {
       headers: {
         "Set-Cookie": await commitSession(session),
@@ -59,7 +63,40 @@ const Toolbar = styled("div")({
 });
 
 export default function AuthedLayout() {
-  const { user, toastData } = useLoaderData<LoaderData>();
+  const { user, vapidPublicKey, toastData } = useLoaderData<LoaderData>();
+  const submit = useSubmit();
+
+  useEffect(() => {
+    async function notificationSubscribe() {
+      if (!("serviceWorker" in navigator)) {
+        return;
+      }
+      const result = await Notification.requestPermission()
+      if (result !== "granted") {
+        return;
+      }
+      const serviceWorkerRegistration = await navigator.serviceWorker.ready
+      const option = {
+        userVisibleOnly: true,
+        applicationServerKey: vapidPublicKey,
+      }
+      const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(option)
+      const savedSubscription = window.localStorage.getItem("SUBSCRIPTION")
+      if (savedSubscription === JSON.stringify(pushSubscription)) {
+        return;
+      }
+      window.localStorage.setItem("SUBSCRIPTION", JSON.stringify(pushSubscription))
+      submit({
+        subscription: JSON.stringify(pushSubscription),
+        redirectTo: window.location.pathname
+      }, {
+        method: "post",
+        action: `/notifications/subscribe`,
+      })
+    }
+    notificationSubscribe();
+  }, [vapidPublicKey, user, submit])
+
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 
   useEffect(() => {

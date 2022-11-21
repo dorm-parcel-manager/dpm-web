@@ -26,7 +26,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     },
   });
   const notifications: Notification[] = await response.json();
-  return notifications.sort((a, b) => b.unixTime - a.unixTime);
+  return {
+    notifications: notifications.sort((a, b) => b.unixTime - a.unixTime),
+  }
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -48,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Notifications() {
-  const notifications = useLoaderData<Notification[]>();
+  const { notifications } = useLoaderData();
   const submit = useSubmit();
 
   const handleClick = (notification: Notification) => {
@@ -57,7 +59,6 @@ export default function Notifications() {
     data.append("link", notification.link);
     submit(data, {
       method: "post",
-      action: `/notifications`,
     });
   };
 
@@ -73,7 +74,7 @@ export default function Notifications() {
         }}
       >
         <List>
-          {notifications.map((notification) => (
+          {notifications.map((notification: any) => (
             <ListItem key={notification._id}>
               <ListItemButton
                 onClick={() => {
