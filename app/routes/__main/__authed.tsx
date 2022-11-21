@@ -71,6 +71,7 @@ export default function AuthedLayout() {
       if (!("serviceWorker" in navigator)) {
         return;
       }
+      navigator.serviceWorker.register("/sw.js")
       const result = await Notification.requestPermission()
       if (result !== "granted") {
         return;
