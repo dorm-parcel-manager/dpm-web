@@ -11,18 +11,32 @@ import { UserMenu } from "~/components/UserMenu";
 import { MobileMenu } from "~/components/MobileMenu";
 import { Sidebar } from "~/components/Sidebar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+
+import type { ToastData } from "~/types";
+import { commitSession, getSession } from "~/services/session.server";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type LoaderData = {
-  user: UserInfo
-  vapidPublicKey: string
+  user: UserInfo;
+  vapidPublicKey: string;
+  toastData: ToastData | null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
   const vapidResponse = await fetch(process.env.CLIENT_NOTIFICATIONSERVICEURL! + "/vapidPublicKey");
   const vapidPublicKey = await vapidResponse.text();
-  return json<LoaderData>({user, vapidPublicKey});
+  const session = await getSession(request.headers.get("Cookie"));
+  const toastData = JSON.parse(session.get("toastData") || "null") as ToastData;
+  return json<LoaderData>(
+    { user, toastData, vapidPublicKey },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
 };
 
 const AppBar = styled("header")(({ theme }) => ({
@@ -49,7 +63,7 @@ const Toolbar = styled("div")({
 });
 
 export default function AuthedLayout() {
-  const { user, vapidPublicKey } = useLoaderData<LoaderData>();
+  const { user, vapidPublicKey, toastData } = useLoaderData<LoaderData>();
   const submit = useSubmit();
 
   useEffect(() => {
@@ -84,6 +98,18 @@ export default function AuthedLayout() {
   }, [vapidPublicKey, user, submit])
 
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
+
+  useEffect(() => {
+    if (!toastData) return;
+    switch (toastData.type) {
+      case "success":
+        toast.success(toastData.message);
+        break;
+      case "error":
+        toast.error(toastData.message);
+        break;
+    }
+  }, [toastData]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>

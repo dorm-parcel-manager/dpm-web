@@ -219,6 +219,36 @@ export interface UpdateUserData {
     type: UserType;
 }
 /**
+ * @generated from protobuf message pb.UpdateUserInfoRequest
+ */
+export interface UpdateUserInfoRequest {
+    /**
+     * @generated from protobuf field: pb.Context context = 1;
+     */
+    context?: Context;
+    /**
+     * @generated from protobuf field: pb.UpdateUserInfoData data = 2;
+     */
+    data?: UpdateUserInfoData;
+}
+/**
+ * @generated from protobuf message pb.UpdateUserInfoData
+ */
+export interface UpdateUserInfoData {
+    /**
+     * @generated from protobuf field: string first_name = 2;
+     */
+    firstName: string;
+    /**
+     * @generated from protobuf field: string last_name = 3;
+     */
+    lastName: string;
+    /**
+     * @generated from protobuf field: string picture = 5;
+     */
+    picture: string;
+}
+/**
  * @generated from protobuf message pb.DeleteUserRequest
  */
 export interface DeleteUserRequest {
@@ -965,6 +995,121 @@ class UpdateUserData$Type extends MessageType<UpdateUserData> {
  */
 export const UpdateUserData = new UpdateUserData$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class UpdateUserInfoRequest$Type extends MessageType<UpdateUserInfoRequest> {
+    constructor() {
+        super("pb.UpdateUserInfoRequest", [
+            { no: 1, name: "context", kind: "message", T: () => Context },
+            { no: 2, name: "data", kind: "message", T: () => UpdateUserInfoData }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateUserInfoRequest>): UpdateUserInfoRequest {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateUserInfoRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateUserInfoRequest): UpdateUserInfoRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pb.Context context */ 1:
+                    message.context = Context.internalBinaryRead(reader, reader.uint32(), options, message.context);
+                    break;
+                case /* pb.UpdateUserInfoData data */ 2:
+                    message.data = UpdateUserInfoData.internalBinaryRead(reader, reader.uint32(), options, message.data);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateUserInfoRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pb.Context context = 1; */
+        if (message.context)
+            Context.internalBinaryWrite(message.context, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* pb.UpdateUserInfoData data = 2; */
+        if (message.data)
+            UpdateUserInfoData.internalBinaryWrite(message.data, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.UpdateUserInfoRequest
+ */
+export const UpdateUserInfoRequest = new UpdateUserInfoRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateUserInfoData$Type extends MessageType<UpdateUserInfoData> {
+    constructor() {
+        super("pb.UpdateUserInfoData", [
+            { no: 2, name: "first_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "last_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "picture", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateUserInfoData>): UpdateUserInfoData {
+        const message = { firstName: "", lastName: "", picture: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateUserInfoData>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateUserInfoData): UpdateUserInfoData {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string first_name */ 2:
+                    message.firstName = reader.string();
+                    break;
+                case /* string last_name */ 3:
+                    message.lastName = reader.string();
+                    break;
+                case /* string picture */ 5:
+                    message.picture = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateUserInfoData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string first_name = 2; */
+        if (message.firstName !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.firstName);
+        /* string last_name = 3; */
+        if (message.lastName !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.lastName);
+        /* string picture = 5; */
+        if (message.picture !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.picture);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pb.UpdateUserInfoData
+ */
+export const UpdateUserInfoData = new UpdateUserInfoData$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class DeleteUserRequest$Type extends MessageType<DeleteUserRequest> {
     constructor() {
         super("pb.DeleteUserRequest", [
@@ -1029,5 +1174,6 @@ export const UserService = new ServiceType("pb.UserService", [
     { name: "GetUsers", options: {}, I: GetUsersRequest, O: GetUsersResponse },
     { name: "GetUser", options: {}, I: GetUserRequest, O: GetUserResponse },
     { name: "UpdateUser", options: {}, I: UpdateUserRequest, O: Empty },
+    { name: "UpdateUserInfo", options: {}, I: UpdateUserInfoRequest, O: Empty },
     { name: "DeleteUser", options: {}, I: DeleteUserRequest, O: Empty }
 ]);

@@ -2,7 +2,7 @@ import { Button, List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { Form, Link, useLoaderData, useTransition } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { getUserOptional } from "~/auth/utils";
@@ -98,6 +98,9 @@ export default function DebugMenu() {
         <input type="hidden" name="a" value="disable" />
         <Button type="submit">Disable</Button>
       </Form>
+      <Button component={Link} to="/" sx={{ mt: 1 }} color="neutral">
+        Go back to app
+      </Button>
       <hr />
       <Typography level="h2">Auth</Typography>
       {data.user ? (
