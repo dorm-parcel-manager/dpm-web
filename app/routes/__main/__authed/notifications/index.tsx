@@ -1,6 +1,5 @@
 import { Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
-import { redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
 
 import { formatRelative } from "~/utils";
 import { getUser } from "~/auth/utils";
@@ -23,22 +22,22 @@ export const action: ActionFunction = async ({ request }) => {
   const user = await getUser(request);
   const formData = await request.formData();
   const id = formData.get("id") as string;
-  const link = formData.get("link") as string;
   await notificationServiceClient.markNotificationAsRead(user.id, id);
-  return redirect(link);
+  return null;
 };
 
 export default function Notifications() {
   const { notifications } = useLoaderData();
   const fetcher = useFetcher();
+  const navigate = useNavigate();
 
   const handleClick = (notification: Notification) => {
     const data = new FormData();
     data.append("id", notification._id);
-    data.append("link", notification.link);
     fetcher.submit(data, {
       method: "post",
     });
+    navigate(notification.link);
   };
 
   return (
