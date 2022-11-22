@@ -1,11 +1,11 @@
 import type { ReactElement, ReactNode } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { cloneElement } from "react";
 import { useContext, createContext } from "react";
 import { Badge } from "@mui/joy";
 import type { BadgeProps, Theme } from "@mui/joy";
 import { Box, List, ListItem, ListItemButton } from "@mui/joy";
-import { Link, useFetchers } from "@remix-run/react";
+import { Link, useFetcher, useFetchers } from "@remix-run/react";
 import { useMatch } from "react-router";
 import { FiPackage } from "react-icons/fi";
 import {
@@ -23,7 +23,6 @@ const SidebarContext = createContext<Props>(null as unknown as Props);
 
 interface Props {
   user: UserInfo;
-  unreadNotifications: string[];
   fixed?: boolean;
   onItemClick?: () => void;
 }
@@ -68,12 +67,19 @@ export function Sidebar(props: Props) {
 }
 
 function NotificationItem() {
-  const { unreadNotifications } = useContext(SidebarContext);
   const readIds = useRef(new Set<string>());
+  const fetcher = useFetcher();
+  const unreadNotifications: string[] = fetcher.data ?? [];
   const fetchers = useFetchers();
 
-  for (const fetcher of fetchers) {
-    const formData = fetcher.submission?.formData;
+  useEffect(() => {
+    if (fetcher.type === "init") {
+      fetcher.load("/notifications/unreadIds");
+    }
+  }, [fetcher]);
+
+  for (const { submission } of fetchers) {
+    const formData = submission?.formData;
     if (!formData) continue;
     const id = formData.get("id") as string | null;
     if (!id) continue;
