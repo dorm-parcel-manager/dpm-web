@@ -22,15 +22,22 @@ type LoaderData = {
   user: UserInfo;
   vapidPublicKey: string;
   toastData: ToastData | null;
+  unreadNotifications: string[];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
   const vapidPublicKey = await notificationServiceClient.vapidPublicKey();
+  const notifications = await notificationServiceClient.getNotifications(
+    user.id
+  );
+  const unreadNotifications = notifications
+    .filter((n) => !n.read)
+    .map((n) => n._id);
   const session = await getSession(request.headers.get("Cookie"));
   const toastData = JSON.parse(session.get("toastData") || "null") as ToastData;
   return json<LoaderData>(
-    { user, toastData, vapidPublicKey },
+    { user, toastData, vapidPublicKey, unreadNotifications },
     {
       headers: {
         "Set-Cookie": await commitSession(session),
@@ -63,7 +70,8 @@ const Toolbar = styled("div")({
 });
 
 export default function AuthedLayout() {
-  const { user, vapidPublicKey, toastData } = useLoaderData<LoaderData>();
+  const { user, vapidPublicKey, toastData, unreadNotifications } =
+    useLoaderData<LoaderData>();
   const submit = useSubmit();
 
   useEffect(() => {
@@ -141,7 +149,11 @@ export default function AuthedLayout() {
             paddingRight: 0,
           }}
         >
-          <Sidebar user={user} fixed />
+          <Sidebar
+            user={user}
+            unreadNotifications={unreadNotifications}
+            fixed
+          />
         </Box>
         <Divider
           orientation="vertical"
