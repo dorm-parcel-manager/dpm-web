@@ -2,50 +2,29 @@ import { Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import { redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 
-import { formatRelative } from '~/utils'
+import { formatRelative } from "~/utils";
 import { getUser } from "~/auth/utils";
 
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-
-interface Notification {
-  _id: string;
-  title: string;
-  message: string;
-  link: string;
-  userId: string;
-  read: boolean;
-  unixTime: number;
-}
+import { notificationServiceClient } from "~/client";
+import type { Notification } from "~/client/NotificationServiceClient";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
-  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!;
-  const response = await fetch(notificationServiceURL + "/notification", {
-    headers: {
-      "User-Id": user.id.toString(),
-    },
-  });
-  const notifications: Notification[] = await response.json();
+  const notifications = await notificationServiceClient.getNotifications(
+    user.id
+  );
   return {
     notifications: notifications.sort((a, b) => b.unixTime - a.unixTime),
-  }
+  };
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const user = await getUser(request);
-  const notificationServiceURL = process.env.CLIENT_NOTIFICATIONSERVICEURL!;
   const formData = await request.formData();
   const id = formData.get("id") as string;
   const link = formData.get("link") as string;
-  await fetch(notificationServiceURL + "/notification/" + id, {
-    method: "PATCH",
-    headers: {
-      "User-Id": user.id.toString(),
-    },
-    body: JSON.stringify({
-      read: true,
-    }),
-  });
+  await notificationServiceClient.markNotificationAsRead(user.id, id);
   return redirect(link);
 };
 

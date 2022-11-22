@@ -16,6 +16,7 @@ import type { ToastData } from "~/types";
 import { commitSession, getSession } from "~/services/session.server";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { notificationServiceClient } from "~/client";
 
 type LoaderData = {
   user: UserInfo;
@@ -25,8 +26,7 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
-  const vapidResponse = await fetch(process.env.CLIENT_NOTIFICATIONSERVICEURL! + "/vapidPublicKey");
-  const vapidPublicKey = await vapidResponse.text();
+  const vapidPublicKey = await notificationServiceClient.vapidPublicKey();
   const session = await getSession(request.headers.get("Cookie"));
   const toastData = JSON.parse(session.get("toastData") || "null") as ToastData;
   return json<LoaderData>(
@@ -71,32 +71,39 @@ export default function AuthedLayout() {
       if (!("serviceWorker" in navigator)) {
         return;
       }
-      navigator.serviceWorker.register("/sw.js")
-      const result = await Notification.requestPermission()
+      navigator.serviceWorker.register("/sw.js");
+      const result = await Notification.requestPermission();
       if (result !== "granted") {
         return;
       }
-      const serviceWorkerRegistration = await navigator.serviceWorker.ready
+      const serviceWorkerRegistration = await navigator.serviceWorker.ready;
       const option = {
         userVisibleOnly: true,
         applicationServerKey: vapidPublicKey,
-      }
-      const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(option)
-      const savedSubscription = window.sessionStorage.getItem("subscription")
+      };
+      const pushSubscription =
+        await serviceWorkerRegistration.pushManager.subscribe(option);
+      const savedSubscription = window.sessionStorage.getItem("subscription");
       if (savedSubscription === JSON.stringify(pushSubscription)) {
         return;
       }
-      window.sessionStorage.setItem("subscription", JSON.stringify(pushSubscription))
-      submit({
-        subscription: JSON.stringify(pushSubscription),
-        redirectTo: window.location.pathname
-      }, {
-        method: "post",
-        action: `/notifications/subscribe`,
-      })
+      window.sessionStorage.setItem(
+        "subscription",
+        JSON.stringify(pushSubscription)
+      );
+      submit(
+        {
+          subscription: JSON.stringify(pushSubscription),
+          redirectTo: window.location.pathname,
+        },
+        {
+          method: "post",
+          action: `/notifications/subscribe`,
+        }
+      );
     }
     notificationSubscribe();
-  }, [vapidPublicKey, user, submit])
+  }, [vapidPublicKey, user, submit]);
 
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up("sm"));
 
