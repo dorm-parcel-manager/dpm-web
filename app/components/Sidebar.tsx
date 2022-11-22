@@ -69,6 +69,7 @@ export function Sidebar(props: Props) {
 function NotificationItem() {
   const readIds = useRef(new Set<string>());
   const fetcher = useFetcher();
+  const { load } = fetcher;
   const unreadNotifications: string[] = fetcher.data ?? [];
   const fetchers = useFetchers();
 
@@ -77,6 +78,14 @@ function NotificationItem() {
       fetcher.load("/notifications/unreadIds");
     }
   }, [fetcher]);
+
+  useEffect(() => {
+    const broadcast = new BroadcastChannel("new-notification");
+    broadcast.onmessage = (e) => {
+      load("/notifications/unreadIds");
+    };
+    return () => broadcast.close();
+  }, [load]);
 
   for (const { submission } of fetchers) {
     const formData = submission?.formData;

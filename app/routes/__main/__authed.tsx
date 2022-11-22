@@ -77,6 +77,7 @@ export default function AuthedLayout() {
         return;
       }
       const serviceWorkerRegistration = await navigator.serviceWorker.ready;
+      await serviceWorkerRegistration.update();
       const option = {
         userVisibleOnly: true,
         applicationServerKey: vapidPublicKey,
