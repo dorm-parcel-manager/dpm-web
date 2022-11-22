@@ -82,11 +82,11 @@ export default function AuthedLayout() {
         applicationServerKey: vapidPublicKey,
       }
       const pushSubscription = await serviceWorkerRegistration.pushManager.subscribe(option)
-      const savedSubscription = window.localStorage.getItem("SUBSCRIPTION")
+      const savedSubscription = window.sessionStorage.getItem("subscription")
       if (savedSubscription === JSON.stringify(pushSubscription)) {
         return;
       }
-      window.localStorage.setItem("SUBSCRIPTION", JSON.stringify(pushSubscription))
+      window.sessionStorage.setItem("subscription", JSON.stringify(pushSubscription))
       submit({
         subscription: JSON.stringify(pushSubscription),
         redirectTo: window.location.pathname
