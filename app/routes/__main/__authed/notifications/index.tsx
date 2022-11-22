@@ -1,6 +1,6 @@
 import { Divider, List, ListItem, ListItemButton, Typography } from "@mui/joy";
 import { redirect } from "@remix-run/node";
-import { useLoaderData, useSubmit } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 
 import { formatRelative } from "~/utils";
 import { getUser } from "~/auth/utils";
@@ -30,13 +30,13 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Notifications() {
   const { notifications } = useLoaderData();
-  const submit = useSubmit();
+  const fetcher = useFetcher();
 
   const handleClick = (notification: Notification) => {
     const data = new FormData();
     data.append("id", notification._id);
     data.append("link", notification.link);
-    submit(data, {
+    fetcher.submit(data, {
       method: "post",
     });
   };
